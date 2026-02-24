@@ -6,7 +6,7 @@ rule host_mapping_search:
     input:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
-        host= config['args']['ref_set']
+        host= config['args']['ref_set'] if isinstance(config['args']['ref_set'], list) else [config['args']['ref_set']]
     output:
         all_bam=os.path.join(dir_hostsearch,"{sample}_temp.bam"),
     params:
