@@ -10,7 +10,10 @@ rule host_mapping_search:
     output:
         all_bam=os.path.join(dir_hostsearch,"{sample}_temp.bam"),
     params:
-        host_group= os.path.join(dir_hostsearch, "ref_group.fasta")
+        host_group= os.path.join(dir_hostsearch, "ref_group.fasta"),
+        REF=lambda wildcards, input, params: (
+            params.host_group if len(input.host) > 1 else input.host[0]
+        )
     conda:
         os.path.join(dir_env, "minimap2.yaml")
     resources:
@@ -22,19 +25,14 @@ rule host_mapping_search:
         """
         set -euo pipefail
 
-        #if the reference set is 1 then run minimap2, else concatenate and run the reference set
-        # If multiple reference files → concatenate
-        if [ $(echo {input.host} | wc -w) -gt 1 ]; then
+        # Concatenate if needed
+        if [ {len(input.host)} -gt 1 ]; then
             cat {input.host} > {params.host_group}
-            REF={params.host_group}
-        else
-            REF={input.host}
         fi
+                
+        minimap2 -ax sr -t {threads} {params.REF} {input.r1} {input.r2} \
+            | samtools sort -@ {threads} -o {output.all_bam} -
 
-        
-        minimap2 -ax sr -t {threads} $REF {input.r1} {input.r2} \
-             | samtools sort -@ {threads} -o {output.all_bam} -
-        
         samtools index {output.all_bam}
         """
 
@@ -100,5 +98,6 @@ rule host_mapping_score:
         strict_idx = os.path.join(dir_hostsearch,"{sample}_strict_idxstats.txt")
     output:
         summary = os.path.join(dir_hostsearch,"{sample}_host_ranking.tsv")
+    local: True
     script:
         "../scripts/score_hosts.py"
