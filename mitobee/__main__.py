@@ -52,7 +52,7 @@ def common_options(func):
         click.option('--extn', 'extn',  help='Reads extension; fastq, fq, fastq.gz', type=click.Path(), required=False, default='fastq', show_default=True),
         click.option('--pattern_r1', 'r1', help='Pattern to identify R1 reads (for paired-end data)', default='_R1', show_default=True),
         click.option('--pattern_r2', 'r2', help='Pattern to identify R2 reads (for paired-end data)', default='_R2', show_default=True),
-        click.option('--host_seq', 'host_seq', help='Path to host genome index for host read removal', type=click.Path(), required=True, show_default=True),
+        click.option('--host_seq', 'host_seq', help='Path to host genome index for host read removal', type=click.Path(), show_default=True),
         click.option('--mitogenome', 'mitogenome', help='Code to know if the reference search is against mitochondrial genomes', type=click.Path(), required=False, show_default=True),
         click.option('--gene', 'gene', help='Code to know if the reference search is against mitochondrial genes', type=click.Path(), required=False, show_default=True),
         click.option('--ref_set', 'refdb', help='Path to reference database of mitochondrial genomes or mitochondrial genes', type=click.Path(), required=False, show_default=True),
@@ -106,6 +106,9 @@ def run(_input, extn, r1, r2, host_seq, output, sequencing, temp_dir, configfile
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
+    if not host_seq:
+        raise click.UsageError("Option --host_seq is required for 'mitobee run'.")
+    
     merge_config = {
         "args": {
             "input": _input, 
@@ -175,7 +178,7 @@ def tree(_input, extn, host_seq, output, temp_dir, configfile, conda_frontend, *
 help_msg_run = """
 \b
 SEARCH EXAMPLES 
-mitobee search --input output/REPORTS/mitogenome --extn fasta --pattern_r1 R1 --patern_r2 R2 --ref_set test-files/ref-db --output output -k
+mitobee search --input <input directory with metagenome reads> --extn fastq.gz --pattern_r1 R1 --patern_r2 R2 --ref_set test-files/ref-db --output output -k
 """
 @click.command(epilog=help_msg_run, 
     context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True)
