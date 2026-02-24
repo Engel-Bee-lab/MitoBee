@@ -50,17 +50,14 @@ dir_reports = os.path.join(dir_out, 'REPORTS')
 """
 CHECK INPUT FILES
 """
+#get user inputs 
 input_dir = config['args']['input']
-# List of file paths matching the pattern
-#replace R1 to 1 for SRA reads
 extn=config['args']['extn']
-
 pattern_r1 = config['args']['pattern_r1']
 pattern_r2 = config['args']['pattern_r2']
 
 # Convert {sample} into wildcard *
-glob_pattern = pattern_r1.replace("{sample}", "*")
-
+glob_pattern = f"*{pattern_r1}.{extn}"
 file_paths = sorted(glob.glob(os.path.join(input_dir, glob_pattern)))
 
 sample_names = []
@@ -68,13 +65,9 @@ for fp in file_paths:
     filename = os.path.basename(fp)
 
     # Extract sample name by reversing the pattern
-    sample = filename.replace(
-        pattern_r1.replace("{sample}", ""),
-        ""
-    )
-
+    sample = filename.replace(f"{pattern_r1}.{extn}", "")
     sample_names.append(sample)
-
+    
 sample_names = list(dict.fromkeys(sample_names))
 
 print(f"Samples are {sample_names}")
