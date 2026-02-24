@@ -14,7 +14,7 @@ resources:
 
 args:
   input: 
-  extn: 
+  extn:
   pattern_r1: {sample}_R1.fastq.gz
   pattern_r2: {sample}_R2.fastq.gz
   mode:
