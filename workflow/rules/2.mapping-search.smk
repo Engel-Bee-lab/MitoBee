@@ -49,8 +49,8 @@ rule host_mapping_metrics:
     input:
         bam=os.path.join(dir_hostsearch,"{sample}_temp.bam")
     output:
-        metrics=os.path.join(dir_hostsearch, "{sample}_primary_idxstats.txt"),
-        primary=os.path.join(dir_hostsearch,"{sample}_primary_coverage.txt"),
+        metrics=os.path.join(dir_hostsearch, "{sample}_all_idxstats.txt"),
+        primary=os.path.join(dir_hostsearch,"{sample}_primary_idxstats.txt"),
         coverage=os.path.join(dir_hostsearch,"{sample}_primary_coverage.txt"),
         strict=os.path.join(dir_hostsearch,"{sample}_strict_idxstats.txt")
     params:
