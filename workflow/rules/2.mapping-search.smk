@@ -18,7 +18,7 @@ rule host_mapping_search:
         runtime = config['resources']['smalljob']['runtime']
     threads: 
         config['resources']['smalljob']['threads']
-        run:
+    run:
         # If multiple reference files, concatenate into one
         if len(input.host) > 1:
             with open(params.host_group, "wb") as wfd:
