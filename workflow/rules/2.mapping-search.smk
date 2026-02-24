@@ -101,4 +101,4 @@ rule host_mapping_score:
     output:
         summary = os.path.join(dir_hostsearch,"{sample}_host_ranking.tsv")
     script:
-        "scripts/score_hosts.py"
+        "../scripts/score_hosts.py"
