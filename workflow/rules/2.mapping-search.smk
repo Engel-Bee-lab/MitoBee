@@ -22,7 +22,7 @@ rule host_mapping_search:
         """
         # Concatenate if multiple references
         FILES={input.host}/*.fasta
-        if [ $FILES | wc -w) -gt 1 ]; then
+        if [ (echo $FILES | wc -w) -gt 1 ]; then
             cat {input.host} > {params.host_group}
             REF={params.host_group}
         else
