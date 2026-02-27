@@ -13,7 +13,6 @@
 
 #mitobee run --input test-files/metagenomes --extn fastq.gz \
 #    --pattern_r1 _R1 --pattern_r2 _R2 \
-#     --sequencing paired \
 #     --host_seq test-files/am-dh4.fasta --profile slurm \
 #     --conda-frontend mamba --output output
 

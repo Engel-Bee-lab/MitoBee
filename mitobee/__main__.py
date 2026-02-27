@@ -101,7 +101,7 @@ mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --pa
     )
 
 @common_options
-def run(_input, extn, r1, r2, host_seq, output, sequencing, temp_dir, configfile, conda_frontend, **kwargs):
+def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -116,7 +116,6 @@ def run(_input, extn, r1, r2, host_seq, output, sequencing, temp_dir, configfile
             "pattern_r1": r1,
             "pattern_r2": r2,
             "host_seq": host_seq,
-            "sequencing": sequencing,
             "configfile": configfile,
             "temp_dir": temp_dir,
         }

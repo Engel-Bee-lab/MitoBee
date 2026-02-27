@@ -194,7 +194,7 @@ rule snp_alignment:
         merged_vcf = os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"),
         host= config['args']['host_seq']
     output:
-        consensus_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
+        consensus_fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     params:
         sample = "{sample}",
     conda:
@@ -210,11 +210,47 @@ rule snp_alignment:
             exit 0
         else
             SAMPLE_FULL=$(bcftools query -l {input.merged_vcf} | grep "{params.sample}")
-            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} {input.merged_vcf} > {output.consensus_fasta}
+
+            # Create BED file of zero coverage positions
+            samtools depth -a {params.folder}/{params.sample}_mapped.sorted.bam \
+                | awk '$3==0 {print $1"\t"$2-1"\t"$2}' > zero_cov.bed
+
+            # Generate consensus masking zero coverage
+            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m zero_cov.bed {input.merged_vcf} > {output.consensus_fasta}
 
             # Add sample name to fasta header
             sample="{params.sample}"
             sed -i "s/>/>${{sample}}_/g" {output.consensus_fasta}
+
+            #remove the bed file 
+            rm zero_cov.bed
         fi
         """
 
+rule qc_consensus:
+    input:
+        fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
+    output:
+        filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
+    params:
+        max_frac = 0.333
+    shell:
+        """
+        set -euo pipefail
+
+        seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
+        n_count=$(grep -v '^>' {input.fasta} | tr -d '\\n' | tr 'a-z' 'A-Z' | grep -o 'N' | wc -l)
+
+        if [ "$seq_len" -eq 0 ]; then
+            echo "Empty sequence, failing QC"
+            exit 1
+        fi
+
+        frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {print n/l}')
+
+        awk -v f=$frac -v m={params.max_frac} 'BEGIN { exit !(f <= m) }'
+
+        echo "PASS: N fraction = $frac"
+        
+        cp {input.fasta} {output.filtered_fasta}
+        """
