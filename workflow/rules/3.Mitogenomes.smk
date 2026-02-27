@@ -189,11 +189,25 @@ rule merge_vcf:
         fi
         """
 
+rule zero_coverage_bed:
+    input:
+        sort_bam = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.sorted.bam")
+    output:
+        zero_cov_bed = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_zero_cov.bed")
+    conda:
+        os.path.join(dir_env, "minimap2.yaml") 
+    shell:
+        """
+        set -euo pipefail
+        samtools depth -a {input.sort_bam} \
+            | awk '$3==0 {{print $1"\t"$2-1"\t"$2}}' > {output.zero_cov_bed}
+        """
+
 rule snp_alignment:
     input:
         merged_vcf = os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"),
         host= config['args']['host_seq'],
-        sort_bam = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.sorted.bam")
+        zero_cov_bed = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_zero_cov.bed")
     output:
         consensus_fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     params:
@@ -211,19 +225,12 @@ rule snp_alignment:
         else
             SAMPLE_FULL=$(bcftools query -l {input.merged_vcf} | grep "{params.sample}")
 
-            # Create BED file of zero coverage positions
-            samtools depth -a {input.sort_bam} _\
-                | awk '$3==0 {{print $1"_\_\t"$2-1"_\_\t"$2}}' > zero_cov.bed
-
             # Generate consensus masking zero coverage
-            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m zero_cov.bed {input.merged_vcf} > {output.consensus_fasta}
+            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m z{input.zero_cov_bed} {input.merged_vcf} > {output.consensus_fasta}
 
             # Add sample name to fasta header
             sample="{params.sample}"
             sed -i "s/>/>${{sample}}_/g" {output.consensus_fasta}
-
-            #remove the bed file 
-            rm zero_cov.bed
         fi
         """
 
