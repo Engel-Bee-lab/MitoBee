@@ -5,18 +5,19 @@ Rules for quality control and quality assurance - Illumina paired end reads
 import glob
 import os
 
-# PATTERN_R1 could be *_R1.fastq.gz or something user-specified
-r1_files = glob.glob(os.path.join(input_dir, PATTERN_R1))
-r2_files = glob.glob(os.path.join(input_dir, PATTERN_R2))
+# Create a dictionary mapping sample -> full filenames
+samples_dict = {}
+for f1 in glob.glob(os.path.join(input_dir, f"*{PATTERN_R1}*.fastq.gz")):
+    sample = os.path.basename(f1).replace(PATTERN_R1, "").replace(".fastq.gz", "")
+    f2 = os.path.join(input_dir, os.path.basename(f1).replace(PATTERN_R1, PATTERN_R2))
+    samples_dict[sample] = (f1, f2)
 
-# Extract sample names by stripping the suffixes
-SAMPLES = [os.path.basename(f).replace(PATTERN_R1.replace("*", ""), "") for f in r1_files]
-
+SAMPLES = list(samples_dict.keys())
 #quality control rules here
 rule fastp:
     input:
-        r1 = lambda wildcards: os.path.join(input_dir, f"{wildcards.sample}{PATTERN_R1.replace('*', '')}"),
-        r2 = lambda wildcards: os.path.join(input_dir, f"{wildcards.sample}{PATTERN_R2.replace('*', '')}")
+        r1 = lambda wc: samples_dict[wc.sample][0],
+        r2 = lambda wc: samples_dict[wc.sample][1]
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
