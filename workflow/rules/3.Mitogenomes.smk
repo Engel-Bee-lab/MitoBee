@@ -202,7 +202,6 @@ rule snp_alignment:
         os.path.join(dir_env, "bcftools.yaml")
     params:
         sample = "{sample}",
-        folder = os.path.join(dir_hostcleaned, "mitogenome")
     shell:
         """
         set -euo pipefail
@@ -214,7 +213,7 @@ rule snp_alignment:
 
             # Create BED file of zero coverage positions
             samtools depth -a {input.sort_bam} _\
-                | awk '$3==0 {print $1"_\_\t"$2-1"_\_\t"$2}' > zero_cov.bed
+                | awk '$3==0 {{print $1"_\_\t"$2-1"_\_\t"$2}}' > zero_cov.bed
 
             # Generate consensus masking zero coverage
             bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m zero_cov.bed {input.merged_vcf} > {output.consensus_fasta}
