@@ -192,7 +192,8 @@ rule merge_vcf:
 rule snp_alignment:
     input:
         merged_vcf = os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"),
-        host= config['args']['host_seq']
+        host= config['args']['host_seq'],
+        sort_bam = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.sorted.bam")
     output:
         consensus_fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     params:
@@ -212,7 +213,7 @@ rule snp_alignment:
             SAMPLE_FULL=$(bcftools query -l {input.merged_vcf} | grep "{params.sample}")
 
             # Create BED file of zero coverage positions
-            samtools depth -a {params.folder}/{params.sample}_mapped.sorted.bam \
+            samtools depth -a {input.sort_bam} \
                 | awk '$3==0 {print $1"\t"$2-1"\t"$2}' > zero_cov.bed
 
             # Generate consensus masking zero coverage
