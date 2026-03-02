@@ -7,6 +7,7 @@
 # MitoBee
 
 ## Snakemake workflow to get mitogenomes from metagenomic data
+Still under development! Stable release out as a version, but only if there is a closely related mitogenome available.
 
 ### Install 
 
