@@ -58,6 +58,7 @@ extn=config['args']['extn']
 pattern_r1 = config['args']['pattern_r1']
 pattern_r2 = config['args']['pattern_r2']
 
+FQEXTN = extn[0]
 # Step 1: Use a loose glob to find all files
 glob_r1 = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{FQEXTN}"))
 glob_r2 = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{FQEXTN}"))
@@ -79,7 +80,6 @@ sample_names = sorted(set(sample_names_r1) & set(sample_names_r2))
 print(f"Detected paired-end samples: {sample_names}")
 
 # Step 4: Build exact patterns for Snakemake
-FQEXTN = extn[0]
 PATTERN_R1 = f"{{sample}}{pattern_r1}.{FQEXTN}"
 PATTERN_R2 = f"{{sample}}{pattern_r2}.{FQEXTN}"
 
