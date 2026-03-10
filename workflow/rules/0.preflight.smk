@@ -58,38 +58,16 @@ extn=config['args']['extn']
 pattern_r1 = config['args']['pattern_r1']
 pattern_r2 = config['args']['pattern_r2']
 
-FQEXTN = extn[0]
-# Step 1: Use a loose glob to find all files
-files_r1 = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{FQEXTN}"))
-files_r2 = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{FQEXTN}"))
-print("R1 files:", files_r1)
-print("R2 files:", files_r2)
+## Run fastq_finder
+samples = fastq_finder(
+    INPUT_DIR,
+    pattern_r1=PATTERN_R1,
+    pattern_r2=PATTERN_R2,
+    extns=EXTNS
+)
 
-# Step 2: Extract sample names by removing pattern + extension
-def extract_sample(files, pattern):
-    samples = []
-    for f in files:
-        name = os.path.basename(f)
-        sample = name.replace(pattern, "").replace(f".{FQEXTN}", "")
-        samples.append(sample)
-    return list(dict.fromkeys(samples))  # remove duplicates
-
-sample_names_r1 = extract_sample(glob_r1, pattern_r1)
-sample_names_r2 = extract_sample(glob_r2, pattern_r2)
-
-# Step 3: Take intersection (only samples that have both R1 & R2)
-sample_names = sorted(set(sample_names_r1) & set(sample_names_r2))
-print(f"Detected paired-end samples: {sample_names}")
-
-# Step 4: Build exact patterns for Snakemake
-PATTERN_R1 = f"{{sample}}{pattern_r1}.{FQEXTN}"
-PATTERN_R2 = f"{{sample}}{pattern_r2}.{FQEXTN}"
-
-# Optional check
-for s in sample_names:
-    files_r1 = glob.glob(os.path.join(input_dir, PATTERN_R1.format(sample=s)))
-    files_r2 = glob.glob(os.path.join(input_dir, PATTERN_R2.format(sample=s)))
-    print(s, files_r1, files_r2)
+print(f"Detected paired‑end samples: {samples}")
+config["samples"] = samples  # store back into snakemake config
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
