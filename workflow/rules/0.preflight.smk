@@ -76,16 +76,13 @@ def extract_sample_names(file_list, pattern, ext):
 
 samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
 samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
-
-# Only keep samples that have both R1 and R2
-paired_samples = sorted(samples_r1 & samples_r2)
-
+sample_names = sorted(samples_r1 & samples_r2)
 # -------------------------
 # Step 3: Output
 # -------------------------
-print(f"Detected paired-end samples: {paired_samples}")
+print(f"Detected paired-end samples: {sample_names}")
 
-config["sample_names"] = paired_samples
+config["sample_names"] = sample_names
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
