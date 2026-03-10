@@ -38,7 +38,6 @@ If there is a representative closely related genome mitogenome, provide that as 
     #Running mitobee with test files available in the repo
     mitobee run --input test-files/metagenomes --extn fastq.gz \
          --pattern_r1 _R1 --pattern_r2 _R2 \
-         --sequencing paired \
          --host_seq test-files/am-dh4.fasta \
          --output output
 ```

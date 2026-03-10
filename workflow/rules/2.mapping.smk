@@ -40,8 +40,7 @@ rule host_mapped_reads:
     output:
         mr1 = os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"),
         mr2 = os.path.join(dir_hostcleaned,"{sample}_R2.mapped.fastq.gz"),
-    params:
-        mapped_bam = os.path.join(dir_hostcleaned,"{sample}_mapped.bam"),
+        mapped_bam = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"),
     conda:
         os.path.join(dir_env, "minimap2.yaml")
     resources:
@@ -56,13 +55,13 @@ rule host_mapped_reads:
             echo "Mapped reads already exist. Skipping..."
             exit 0
         else
-            samtools view -b -F 4 -@ {threads} -o {params.mapped_bam} {input.all_bam}
+            samtools view -b -F 4 -@ {threads} -o {output.mapped_bam} {input.all_bam}
 
             #unmapped reads to fastq
             samtools fastq -@ {threads} -0 /dev/null -s /dev/null -n \
                 -1 >(gzip -c  > {output.mr1}) \
                 -2 >(gzip -c  > {output.mr2}) \
-                {params.mapped_bam}
+                {output.mapped_bam}
             
             touch {output.mr1}
             touch {output.mr2}
