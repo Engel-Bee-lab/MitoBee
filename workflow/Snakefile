@@ -37,7 +37,7 @@ for sample in sample_names:
     targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample))
     targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"),sample=sample))
     targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R2.mapped.fastq.gz"), sample=sample))
-     targets['qc'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"), sample=sample))
+    targets['qc'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"), sample=sample))
     #targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample))
     #targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
         
