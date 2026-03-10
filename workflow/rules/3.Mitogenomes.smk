@@ -231,8 +231,7 @@ rule qc_consensus:
         max_frac = 0.333,
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
     params:
-    shell:
-        """
+    shell("""
         set -euo pipefail
 
         seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
@@ -243,12 +242,12 @@ rule qc_consensus:
             exit 1
         fi
 
-        frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {print n/l}')
+        frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {{print n/l}}')
 
-        awk -v f=$frac -v m={params.max_frac} 'BEGIN { exit !(f <= m) }'
+        awk -v f=$frac -v m={params.max_frac} 'BEGIN {{ exit !(f <= m) }}'
 
         echo "PASS: N fraction = $frac"
-        
+
         cp {input.fasta} {output.filtered_fasta}
         touch {output.output_fasta}
-        """
+        """)
