@@ -7,7 +7,7 @@ import os
 #quality control rules here
 rule fastp:
     input:
-        r1 = glob.glob(os.path.join(input_dir, PATTERN_R1))
+        r1 = glob.glob(os.path.join(input_dir, PATTERN_R1)),
         r2 = glob.glob(os.path.join(input_dir, PATTERN_R2))
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
