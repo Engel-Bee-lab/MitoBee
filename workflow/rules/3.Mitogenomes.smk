@@ -214,7 +214,7 @@ rule snp_alignment:
             SAMPLE_FULL=$(bcftools query -l {input.merged_vcf} | grep "{params.sample}")
 
             # Generate consensus masking zero coverage
-            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m z{input.low_cov_bed} {input.merged_vcf} > {output.consensus_fasta}
+            bcftools consensus -s "$SAMPLE_FULL" -f {input.host} -m {input.low_cov_bed} {input.merged_vcf} > {output.consensus_fasta}
 
             # Add sample name to fasta header
             sample="{params.sample}"
