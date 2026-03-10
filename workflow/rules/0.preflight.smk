@@ -85,6 +85,8 @@ paired_samples = sorted(samples_r1 & samples_r2)
 # -------------------------
 print(f"Detected paired-end samples: {paired_samples}")
 
+config["sample_names"] = paired_samples
+
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
 """
