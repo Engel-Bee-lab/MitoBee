@@ -26,26 +26,25 @@ Defining the targets dictionary
 """
 targets ={'qc':[], 'host':[]}
 
-for sample in sample_names:
-    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample)),
-    targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample)),
-    targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample_names)),
+targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample_names)),
+targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
     
-    targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"), sample=sample)),
-    targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R2.mapped.fastq.gz"), sample=sample)),
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"),sample=sample)),
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.vcf.gz"), sample=sample)),
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.vcf.gz"), sample=sample))
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.allele_frequency.txt"), sample=sample))
-    targets['host'].append(os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"))
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample))
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample))
-    targets['host'].append(os.path.join(dir_reports, "mitogenome_consensus_summary.tsv"))
+targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"), sample=sample_names)),
+targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R2.mapped.fastq.gz"), sample=sample_names)),
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"),sample=sample_names)),
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.vcf.gz"), sample=sample_names)),
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.vcf.gz"), sample=sample_names))
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.allele_frequency.txt"), sample=sample_names))
+targets['host'].append(os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"))
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample_names))
+targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample_names))
+targets['host'].append(os.path.join(dir_reports, "mitogenome_consensus_summary.tsv"))
 
         
 
