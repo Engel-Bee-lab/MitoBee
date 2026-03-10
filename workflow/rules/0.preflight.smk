@@ -76,6 +76,9 @@ FQEXTN = extn[0]
 PATTERN_R1 = f'{{sample}}{pattern_r1}.{extn}'
 PATTERN_R2 = f'{{sample}}{pattern_r2}.{extn}'
 
+# Print to verify!
+print(f"DEBUG: PATTERN_R1 is '{PATTERN_R1}'") 
+
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
 """
