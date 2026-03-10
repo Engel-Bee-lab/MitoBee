@@ -41,9 +41,9 @@ for sample in sample_names:
     targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps_depth.txt"), sample=sample))
     targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.vcf.gz"), sample=sample))
     targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.allele_frequency.txt"), sample=sample))
-    targets['host'].append(os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"))
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample))
-    targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample))
+    #targets['host'].append(os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample))
     
     #targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample))
     #targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
