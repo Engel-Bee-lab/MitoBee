@@ -27,18 +27,10 @@ rule fastp:
         #   --n_base_limit 5 
         #   --length_required 30
         
-        if [ -f {output.r1} ] && [ -f {output.r2} ]; then
-            echo "fastp output files already exist. Skipping..."
-        else
-            fastp -i {input.r1} -I {input.r2} -o {output.r1} -O {output.r2} \
-                --thread {threads} \
-                --json {output.stats} \
-                --html {output.html}
-        fi
-        
-        if [ ! -s {output.r1} ] || [ ! -s {output.r2} ]; then
-            echo "Error: One of the output files is empty. Please check the input files and parameters."
-            touch {output.r1} {output.r2} # create empty files to avoid snakemake errors
+        fastp -i {input.r1} -I {input.r2} -o {output.r1} -O {output.r2} \
+            --thread {threads} \
+            --json {output.stats} \
+            --html {output.html}
         fi
         """
     
