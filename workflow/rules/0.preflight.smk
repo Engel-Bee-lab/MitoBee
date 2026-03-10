@@ -76,7 +76,7 @@ def extract_sample_names(file_list, pattern, ext):
 
 samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
 samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
-print (f"Found {len(samples_r1)} R1 samples and {len(samples_r2)} R2 samples.")
+print (f"Found {(samples_r1)} R1 samples and {(samples_r2)} R2 samples.")
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
