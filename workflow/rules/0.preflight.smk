@@ -68,16 +68,23 @@ def extract_sample_names(file_list, pattern, ext):
 
 samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
 samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
-sample_names = sorted(samples_r1 & samples_r2)
+samples = sorted(samples_r1 & samples_r2)
 # -------------------------
 # Step 3: Output
 # -------------------------
-print(f"Detected paired-end samples: {sample_names}")
+print(f"Detected paired-end samples: {samples}")
+sample_inputs = {}
 
-config["sample_names"] = sample_names
+for sample in samples:
+    r1_path = os.path.join(input_dir, f"{sample}{pattern_r1}.{extn}")
+    r2_path = os.path.join(input_dir, f"{sample}{pattern_r2}.{extn}")
+    sample_inputs[sample] = {"r1": r1_path, "r2": r2_path}
+
+config["sample_names"] = sample_inputs
+print(f"Sample inputs: {config['sample_names']}")
 
 #making directories for each step
-sample_names = config["sample_names"]
+sample_inputs = config["sample_names"]
 #Saving most of the files to PROCESSING, sine they are intermediate files
 dir_fastp = os.path.join(dir_out, 'PROCESSING' ,'1_fastp')
 dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'Host_cleaned')
