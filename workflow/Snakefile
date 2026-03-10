@@ -48,7 +48,7 @@ for sample in sample_names:
     #targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample))
     #targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
     #targets['host'].append(os.path.join(dir_reports, "mitogenome_consensus_summary.tsv"))
-    #targets['host'].append(os.path.join(dir_reports, "mitogenome", "done.txt"))
+    targets['host'].append(os.path.join(dir_reports, "mitogenome", "done.txt"))
 @targetRule
 rule all:
     input:
