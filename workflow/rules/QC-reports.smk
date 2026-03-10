@@ -26,7 +26,6 @@ rule generate_stats:
 
 from glob import glob
 sample_names = config["sample_names"]
-print (sample_names)
 
 rule final_qc_report:
     input:

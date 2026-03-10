@@ -3,12 +3,13 @@ Rules for quality control and quality assurance - Illumina paired end reads
 """
 import glob
 import os
+sample_names = config["sample_names"]
 
 #quality control rules here
 rule fastp:
     input:
-        r1 = lambda wc: config["sample_inputs"][wc.sample]["r1"],
-        r2 = lambda wc: config["sample_inputs"][wc.sample]["r2"]
+        r1 = lambda wc: config["sample_names"][wc.sample]["r1"],
+        r2 = lambda wc: config["sample_names"][wc.sample]["r2"]
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
