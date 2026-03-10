@@ -231,7 +231,8 @@ rule qc_consensus:
         max_frac = 0.333,
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
     params:
-    shell("""
+    shell
+    """
         set -euo pipefail
 
         seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
@@ -250,4 +251,4 @@ rule qc_consensus:
 
         cp {input.fasta} {output.filtered_fasta}
         touch {output.output_fasta}
-        """)
+        """
