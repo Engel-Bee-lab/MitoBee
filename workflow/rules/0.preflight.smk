@@ -74,8 +74,14 @@ sample_names = list(dict.fromkeys(sample_names))
 
 print(f"Samples are {sample_names}")
 FQEXTN = extn[0]
-PATTERN_R1 = f'{{sample}}{pattern_r1}.{extn}'
-PATTERN_R2 = f'{{sample}}{pattern_r2}.{extn}'
+PATTERN_R1 = f'{{sample}}{pattern_r1}.{FQEXTN}'
+PATTERN_R2 = f'{{sample}}{pattern_r2}.{FQEXTN}'
+
+"""CHECKING FOR THE INPUT FILES"""
+for s in sample_names:
+    files_r1 = glob.glob(PATTERN_R1.format(sample=s))
+    files_r2 = glob.glob(PATTERN_R2.format(sample=s))
+    print(s, files_r1, files_r2)
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
