@@ -79,8 +79,8 @@ PATTERN_R2 = f'{{sample}}{pattern_r2}.{FQEXTN}'
 
 """CHECKING FOR THE INPUT FILES"""
 for s in sample_names:
-    files_r1 = glob.glob(PATTERN_R1.format(sample=s))
-    files_r2 = glob.glob(PATTERN_R2.format(sample=s))
+    files_r1 = glob.glob(os.path.join(input_dir, PATTERN_R1.format(sample=s)))
+    files_r2 = glob.glob(os.path.join(input_dir, PATTERN_R2.format(sample=s)))
     print(s, files_r1, files_r2)
 
 """ONSTART/END/ERROR
