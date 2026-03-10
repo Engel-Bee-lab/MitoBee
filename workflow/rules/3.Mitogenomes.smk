@@ -81,6 +81,11 @@ rule normalise_vcfs:
         temp=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.temp.vcf.gz"), 
     conda:
         os.path.join(dir_env, "bcftools.yaml")
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
         set -euo pipefail
@@ -106,6 +111,11 @@ rule generate_allele_frequency:
         prefix = "{sample}",
     conda:
         os.path.join(dir_env, "bcftools.yaml")
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
         set -euo pipefail
@@ -134,6 +144,11 @@ rule merge_vcf:
         folder=os.path.join(dir_hostcleaned, "mitogenome")
     conda:
         os.path.join(dir_env, "bcftools.yaml")
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
         set -euo pipefail
@@ -157,6 +172,11 @@ rule low_coverage_bed:
         os.path.join(dir_env, "minimap2.yaml") 
     params:
         min_depth = 10 #mask regions with less than 10x coverage
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
         set -euo pipefail
@@ -179,6 +199,11 @@ rule snp_alignment:
         os.path.join(dir_env, "bcftools.yaml")
     params:
         sample = "{sample}",
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
         set -euo pipefail
