@@ -126,11 +126,11 @@ rule generate_allele_frequency:
             bcftools query -f '%POS\t[%AD]\n' "$vcf" |   awk -v s={params.prefix} '{{ 
                 split($2,a,",");
                 if (length(a) == 2) {{
-                total = a[1] + a[2];
-                if (total > 0)
-                    print s "\t" $1 "\t" a[2]/total
+                    total = a[1] + a[2];
+                    if (total > 0)
+                        print s "\t" $1 "\t" a[2]/total
                 }}
-            }} > {output.af_table}
+            }}'' > {output.af_table}
         fi
         """
 
