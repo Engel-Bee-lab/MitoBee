@@ -1,6 +1,8 @@
 """
 Rules for quality control and quality assurance - Illumina paired end reads 
 """
+sample_names = list(config["sample_names"].keys())
+
 #quality control rules here
 rule fastp:
     input:
