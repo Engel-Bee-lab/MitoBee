@@ -130,7 +130,7 @@ rule generate_allele_frequency:
                     if (total > 0)
                         print s "\t" $1 "\t" a[2]/total
                 }}
-            }}'' > {output.af_table}
+            }}' > {output.af_table}
         fi
         """
 
