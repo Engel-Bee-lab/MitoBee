@@ -79,6 +79,7 @@ sample_names = sorted(set(sample_names_r1) & set(sample_names_r2))
 print(f"Detected paired-end samples: {sample_names}")
 
 # Step 4: Build exact patterns for Snakemake
+FQEXTN = extn[0]
 PATTERN_R1 = f"{{sample}}{pattern_r1}.{FQEXTN}"
 PATTERN_R2 = f"{{sample}}{pattern_r2}.{FQEXTN}"
 
@@ -87,6 +88,7 @@ for s in sample_names:
     files_r1 = glob.glob(os.path.join(input_dir, PATTERN_R1.format(sample=s)))
     files_r2 = glob.glob(os.path.join(input_dir, PATTERN_R2.format(sample=s)))
     print(s, files_r1, files_r2)
+
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
 """
