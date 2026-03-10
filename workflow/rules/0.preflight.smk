@@ -58,15 +58,20 @@ r2_files = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{extn}"))
 # -------------------------
 # Step 2: Extract sample names
 # -------------------------
-# Extract sample names
-def extract_samples(files, pattern):
-    return set(os.path.basename(f).replace(pattern, "").replace(f".{extn}", "") for f in files)
+def extract_sample_names(file_list, pattern, ext):
+    samples = []
+    for f in file_list:
+        name = os.path.basename(f)
+        sample = name.replace(pattern, "").replace(f".{ext}", "")
+        samples.append(sample)
+    return set(samples)  # unique
 
-samples_r1 = extract_samples(r1_files, pattern_r1)
-samples_r2 = extract_samples(r2_files, pattern_r2)
-
+samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
+samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
 sample_names = sorted(samples_r1 & samples_r2)
-
+# -------------------------
+# Step 3: Output
+# -------------------------
 print(f"Detected paired-end samples: {sample_names}")
 
 config["sample_names"] = sample_names
