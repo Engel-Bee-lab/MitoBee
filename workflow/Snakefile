@@ -66,9 +66,9 @@ rule all:
 @targetRule
 rule qc:
     input:
-        targets['qc']
+        expand(qc_per_sample, sample=sample_names) + qc_global 
 
 @targetRule
 rule host:
     input:
-        targets['host']
+        expand(host_per_sample, sample=sample_names) + host_global
