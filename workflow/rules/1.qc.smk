@@ -3,7 +3,6 @@ Rules for quality control and quality assurance - Illumina paired end reads
 """
 import glob
 import os
-sample_names = config["sample_names"]
 
 #quality control rules here
 rule fastp:
