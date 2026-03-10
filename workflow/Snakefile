@@ -26,10 +26,10 @@ Defining the targets dictionary
 """
 targets ={'qc':[], 'host':[]}
 
-targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=config["sample_names"]))
-targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=config["sample_names"]))
-targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=config["sample_names"]))
-targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=config["sample_names"]))
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample_names))
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample_names))
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=sample_names))
+targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample_names))
 targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample_names))
 targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample_names))
 targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample_names))
