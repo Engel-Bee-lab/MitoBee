@@ -4,17 +4,11 @@ Rules for quality control and quality assurance - Illumina paired end reads
 import glob
 import os
 
-#get user inputs, because apparently snakemake doesn't allow to use config variables in the input section of the rules, we have to define them here
-input_dir = config['args']['input']
-extn=config['args']['extn']
-pattern_r1 = config['args']['pattern_r1']
-pattern_r2 = config['args']['pattern_r2']
-
 #quality control rules here
 rule fastp:
     input:
-        r1 = lambda wc: os.path.join(input_dir, f"{wc.sample}{pattern_r1}.{extn}"),
-        r2 = lambda wc: os.path.join(input_dir, f"{wc.sample}{pattern_r2}.{extn}")
+        r1 = lambda wc: config["sample_inputs"][wc.sample]["r1"],
+        r2 = lambda wc: config["sample_inputs"][wc.sample]["r2"]
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
