@@ -4,7 +4,6 @@ import glob
 
 """Parse config"""
 configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
-sample_names = config["sample_names"]
 
 """Rules"""
 include: os.path.join("rules", "0.preflight.smk")
