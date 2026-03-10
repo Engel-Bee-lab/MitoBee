@@ -45,15 +45,15 @@ CHECK INPUT FILES
 """
 #get user inputs 
 input_dir = config['args']['input']
-extn=config['args']['extn']
+extn=config['args']['extn'][0]
 pattern_r1 = config['args']['pattern_r1']
 pattern_r2 = config['args']['pattern_r2']
 
 # -------------------------
 # Step 1: Find all R1 and R2 files
 # -------------------------
-r1_files = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{extn}"))
-r2_files = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{extn}"))
+r1_files = glob.glob(os.path.join(input_dir, f"{pattern_r1}*.{extn}"))
+r2_files = glob.glob(os.path.join(input_dir, f"{pattern_r2}*.{extn}"))
 
 # -------------------------
 # Step 2: Extract sample names
