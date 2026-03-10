@@ -226,9 +226,11 @@ rule qc_consensus:
     input:
         fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     output:
+        output_fasta = os.path.join(dir_reports, "mitogenome", "done.txt"),
+    params:
+        max_frac = 0.333,
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
     params:
-        max_frac = 0.333
     shell:
         """
         set -euo pipefail
@@ -248,4 +250,5 @@ rule qc_consensus:
         echo "PASS: N fraction = $frac"
         
         cp {input.fasta} {output.filtered_fasta}
+        touch {output.output_fasta}
         """
