@@ -183,7 +183,7 @@ rule low_coverage_bed:
         # -a outputs all positions (including zero depth)
         # We filter for positions where depth ($3) is LESS than the threshold
         samtools depth -a {input.sort_bam} \
-            | awk -v min={params.min_depth} '$3 < min {{print $1"\t"$2-1"\t"$2}}' > {output.zero_cov_bed}
+            | awk -v min={params.min_depth} '$3 < min {{print $1"\t"$2-1"\t"$2}}' > {output.low_cov_bed}
         """
 
 rule snp_alignment:
