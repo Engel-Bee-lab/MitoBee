@@ -25,7 +25,7 @@ def targetRule(fn):
 Defining the targets dictionary
 """
 targets ={'qc':[], 'host':[]}
-sample_names = config["sample_names"]
+sample_names = list(config["sample_names"].keys())
 print (sample_names)
 
 targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample_names))
