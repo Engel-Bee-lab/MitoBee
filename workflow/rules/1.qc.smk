@@ -31,6 +31,5 @@ rule fastp:
             --thread {threads} \
             --json {output.stats} \
             --html {output.html}
-        fi
         """
     
