@@ -123,7 +123,7 @@ rule generate_allele_frequency:
             echo "Allele frequency table already exists. Skipping..."
             exit 0
         else
-            bcftools query -f '%POS\t[%AD]\n' "$vcf" |   awk -v s={params.prefix} '{{ 
+            bcftools query -f '%POS\t[%AD]\n' "{input.norm_vcf}" |   awk -v s={params.prefix} '{{ 
                 split($2,a,",");
                 if (length(a) == 2) {{
                     total = a[1] + a[2];
