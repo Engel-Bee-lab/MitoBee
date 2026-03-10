@@ -231,7 +231,7 @@ rule qc_consensus:
         max_frac = 0.333,
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
     params:
-    shell
+    shell:
     """
         set -euo pipefail
 
