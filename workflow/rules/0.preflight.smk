@@ -40,20 +40,12 @@ else:
 dir_env = os.path.join(workflow.basedir,"envs")
 dir_script = os.path.join(workflow.basedir,"scripts")
 
-#making directories for each step
-#Saving most of the files to PROCESSING, sine they are intermediate files
-dir_fastp = os.path.join(dir_out, 'PROCESSING' ,'1_fastp')
-dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'Host_cleaned')
-dir_hostsearch = os.path.join(dir_out, 'PROCESSING' ,'Reference_search')
-dir_reports = os.path.join(dir_out, 'REPORTS')
-
-
 """
 CHECK INPUT FILES
 """
 #get user inputs 
 input_dir = config['args']['input']
-extn=config['args']['extn']
+extn=config['args']['extn'][0]
 pattern_r1 = config['args']['pattern_r1']
 pattern_r2 = config['args']['pattern_r2']
 
@@ -66,23 +58,27 @@ r2_files = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{extn}"))
 # -------------------------
 # Step 2: Extract sample names
 # -------------------------
-def extract_sample_names(file_list, pattern, ext):
-    samples = []
-    for f in file_list:
-        name = os.path.basename(f)
-        sample = name.replace(pattern, "").replace(f".{ext}", "")
-        samples.append(sample)
-    return set(samples)  # unique
+# Extract sample names
+def extract_samples(files, pattern):
+    return set(os.path.basename(f).replace(pattern, "").replace(f".{extn}", "") for f in files)
 
-samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
-samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
+samples_r1 = extract_samples(r1_files, pattern_r1)
+samples_r2 = extract_samples(r2_files, pattern_r2)
+
 sample_names = sorted(samples_r1 & samples_r2)
-# -------------------------
-# Step 3: Output
-# -------------------------
+
 print(f"Detected paired-end samples: {sample_names}")
 
 config["sample_names"] = sample_names
+
+#making directories for each step
+sample_names = config["sample_names"]
+#Saving most of the files to PROCESSING, sine they are intermediate files
+dir_fastp = os.path.join(dir_out, 'PROCESSING' ,'1_fastp')
+dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'Host_cleaned')
+dir_hostsearch = os.path.join(dir_out, 'PROCESSING' ,'Reference_search')
+dir_reports = os.path.join(dir_out, 'REPORTS')
+
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
