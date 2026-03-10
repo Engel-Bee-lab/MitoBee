@@ -60,10 +60,10 @@ pattern_r2 = config['args']['pattern_r2']
 
 ## Run fastq_finder
 samples = fastq_finder(
-    INPUT_DIR,
-    pattern_r1=PATTERN_R1,
-    pattern_r2=PATTERN_R2,
-    extns=EXTNS
+    input_dir,
+    pattern_r1=pattern_r1,
+    pattern_r2=pattern_r2,
+    extns=extn
 )
 
 print(f"Detected paired‑end samples: {samples}")
