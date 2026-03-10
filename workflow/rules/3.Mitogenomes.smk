@@ -26,7 +26,7 @@ rule bam_sort:
         else
         
             #prep the bam
-            samtools sort -o {output.sort_bam} {input.bam}
+            samtools sort -o {output.sort_bam} {input.mapped_bam}
             samtools index {output.sort_bam}
             samtools depth {output.sort_bam} > {output.depth}
         fi
