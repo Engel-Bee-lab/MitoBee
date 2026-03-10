@@ -62,7 +62,22 @@ pattern_r2 = config['args']['pattern_r2']
 # -------------------------
 r1_files = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{extn}"))
 r2_files = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{extn}"))
-print (f"Found {len(r1_files)} R1 files and {len(r2_files)} R2 files in the input directory.")
+
+# -------------------------
+# Step 2: Extract sample names
+# -------------------------
+def extract_sample_names(file_list, pattern, ext):
+    samples = []
+    for f in file_list:
+        name = os.path.basename(f)
+        sample = name.replace(pattern, "").replace(f".{ext}", "")
+        samples.append(sample)
+    return set(samples)  # unique
+
+samples_r1 = extract_sample_names(r1_files, pattern_r1, extn)
+samples_r2 = extract_sample_names(r2_files, pattern_r2, extn)
+print (f"Found {len(samples_r1)} R1 samples and {len(samples_r2)} R2 samples.")
+
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
 """
