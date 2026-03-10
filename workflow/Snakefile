@@ -28,47 +28,40 @@ targets ={'qc':[], 'host':[]}
 sample_names = list(config["sample_names"].keys())
 print (sample_names)
 
-# Per-sample targets
-qc_per_sample = [
-    os.path.join(dir_fastp, "{sample}_R1.fastq.gz"),
-    os.path.join(dir_fastp, "{sample}_R2.fastq.gz"),
-    os.path.join(dir_fastp, "{sample}.stats.json"),
-    os.path.join(dir_fastp, "{sample}.stats.html"),
-    os.path.join(dir_hostcleaned, "{sample}_temp.bam"),
-    os.path.join(dir_hostcleaned, "{sample}_bamstats.txt"),
-    os.path.join(dir_reports, "QC", "{sample}_host_qc_report.txt")
-]
-
-host_per_sample = [
-    os.path.join(dir_hostcleaned, "{sample}_R1.mapped.fastq.gz"),
-    os.path.join(dir_hostcleaned, "{sample}_R2.mapped.fastq.gz"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.vcf.gz"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.vcf.gz"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.allele_frequency.txt"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"),
-    os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
-]
-
-# Global targets (no sample wildcard)
-qc_global = [os.path.join(dir_reports, "final_host_qc_summary.txt")]
-host_global = [os.path.join(dir_reports, "mitogenome_consensus_summary.tsv")]
-
-# Build final lists for rule all
-targets_all = expand(qc_per_sample, sample=sample_names) + qc_global + \
-              expand(host_per_sample, sample=sample_names) + host_global
+for sample in sample_names:
+    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample))
+    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample))
+    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=sample))
+    targets['qc'].append(expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample))
+    #targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample))
+    #targets['qc'].append(expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample))
+    #targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample))
+    #targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
+        
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_R2.mapped.fastq.gz"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mapped.bam"),sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.vcf.gz"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.vcf.gz"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.allele_frequency.txt"), sample=sample))
+    #targets['host'].append(os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz"))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample))
+    #targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample))
+    #targets['host'].append(os.path.join(dir_reports, "mitogenome_consensus_summary.tsv"))
 
 @targetRule
 rule all:
     input:
-        targets_all
+        targets['qc'],
+        targets['host'],
+
 
 @targetRule
 rule qc:
     input:
-        expand(qc_per_sample, sample=sample_names) + qc_global 
+        targets['qc']
 
 @targetRule
 rule host:
     input:
-        expand(host_per_sample, sample=sample_names) + host_global
+        targets['host']
