@@ -4,11 +4,12 @@
 #can be compressed or decompressed
 #For now there can be no sub folders, the files have to be saved in the same folder
 
-import os 
+import os
 import glob
 import yaml
 import re
-from metasnek import fastq_finder
+import sys
+import shutil
 
 """
 CONFIG FILE
@@ -71,13 +72,6 @@ for fp in file_paths:
 sample_names = list(dict.fromkeys(sample_names))
 
 print(f"Samples are {sample_names}")
-
-FQEXTN = extn[0]
-PATTERN_R1 = f'{sample}{pattern_r1}.{extn}'
-PATTERN_R2 = f'{sample}{pattern_r2}.{extn}'
-
-# Print to verify!
-print(f"DEBUG: PATTERN_R1 is '{PATTERN_R1}'") 
 
 """ONSTART/END/ERROR
 Tasks to perform at various stages the start and end of a run.
