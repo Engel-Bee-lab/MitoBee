@@ -5,8 +5,8 @@ Rules for quality control and quality assurance - Illumina paired end reads
 #quality control rules here
 rule fastp:
     input:
-        r1 = expand(os.path.join(input_dir, PATTERN_R1), sample=sample_names),
-        r2 = expand(os.path.join(input_dir, PATTERN_R2), sample=sample_names)
+        r1 = os.path.join(input_dir, PATTERN_R1)
+        r2 = os.path.join(input_dir, PATTERN_R2)
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
