@@ -7,8 +7,8 @@ import os
 #quality control rules here
 rule fastp:
     input:
-        r1 = glob.glob(os.path.join(input_dir, PATTERN_R1)),
-        r2 = glob.glob(os.path.join(input_dir, PATTERN_R2))
+        r1 = lambda wildcards: os.path.join(input_dir, f"{wildcards.sample}_R1.fastq.gz"),
+        r2 = lambda wildcards: os.path.join(input_dir, f"{wildcards.sample}_R2.fastq.gz")
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
