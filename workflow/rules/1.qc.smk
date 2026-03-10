@@ -7,8 +7,8 @@ import os
 #quality control rules here
 rule fastp:
     input:
-        r1 = lambda wc: os.path.join(config["input_dir"], f"{wc.sample}{config['pattern_r1']}.{config['extn'][0]}"),
-        r2 = lambda wc: os.path.join(config["input_dir"], f"{wc.sample}{config['pattern_r2']}.{config['extn'][0]}")
+        r1 = lambda wc: os.path.join(config["input"], f"{wc.sample}{config['pattern_r1']}.{config['extn'][0]}"),
+        r2 = lambda wc: os.path.join(config["input"], f"{wc.sample}{config['pattern_r2']}.{config['extn'][0]}")
     output:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
