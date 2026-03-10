@@ -30,13 +30,13 @@ print (sample_names)
 
 for sample in sample_names:
     targets['qc'].extend([
-        os.path.join(dir_fastp,"{sample}.stats.html"),
-        os.path.join(dir_fastp,"{sample}.stats.json"),
-        os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
-        os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), 
-        os.path.join(dir_hostcleaned,"{sample}_temp.bam"),
-        os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"),
-        os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt")
+        os.path.join(dir_fastp, f"{sample}.stats.html"),
+        os.path.join(dir_fastp, f"{sample}.stats.json"),
+        os.path.join(dir_fastp, f"{sample}_R1.fastq.gz"),
+        os.path.join(dir_fastp, f"{sample}_R2.fastq.gz"), 
+        os.path.join(dir_hostcleaned, f"{sample}_temp.bam"),
+        os.path.join(dir_hostcleaned, f"{sample}_bamstats.txt"),
+        os.path.join(dir_reports,"QC", f"{sample}_host_qc_report.txt")
     ])
     targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
 
