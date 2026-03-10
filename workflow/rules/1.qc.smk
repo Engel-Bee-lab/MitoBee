@@ -1,9 +1,6 @@
 """
 Rules for quality control and quality assurance - Illumina paired end reads 
 """
-import glob
-import os
-
 #quality control rules here
 rule fastp:
     input:
