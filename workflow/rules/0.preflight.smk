@@ -60,8 +60,10 @@ pattern_r2 = config['args']['pattern_r2']
 
 FQEXTN = extn[0]
 # Step 1: Use a loose glob to find all files
-glob_r1 = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{FQEXTN}"))
-glob_r2 = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{FQEXTN}"))
+files_r1 = glob.glob(os.path.join(input_dir, f"*{pattern_r1}*.{FQEXTN}"))
+files_r2 = glob.glob(os.path.join(input_dir, f"*{pattern_r2}*.{FQEXTN}"))
+print("R1 files:", files_r1)
+print("R2 files:", files_r2)
 
 # Step 2: Extract sample names by removing pattern + extension
 def extract_sample(files, pattern):
