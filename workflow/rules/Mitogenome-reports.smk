@@ -47,7 +47,7 @@ rule mitogenome_summary:
 
 rule mitogenome_reports_aggregate:
     input:
-        summaries = os.path.join(dir_hostcleaned, "mitogenome", "*_consensus.summary.tsv")
+        summaries = expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.summary.tsv"), sample=samples)
     output:
         aggregate = os.path.join(dir_reports, "mitogenome_consensus_summary.tsv")
     localrule: True
