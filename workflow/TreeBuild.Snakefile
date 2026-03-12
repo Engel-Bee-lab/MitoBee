@@ -24,7 +24,6 @@ sample_names = [re.sub(rf"\.{re.escape(extn)}$", '', os.path.basename(fp)) for f
 
 print(f"Samples found: {sample_names}")
 
-
 """
 Defining directories
 """
