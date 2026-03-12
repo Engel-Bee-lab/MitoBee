@@ -79,7 +79,7 @@ rule install_database:
 
 rule run_mitos:
     input:
-        fasta=os.path.join(input_dir, "{sample}.{extn}"),
+        fasta= lambda wc: os.path.join(input_dir, "{wc.sample}.{extn}"),
         db=os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
     output:
         os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.gff")
