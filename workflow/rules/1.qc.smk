@@ -1,9 +1,8 @@
 """
 Rules for quality control and quality assurance - Illumina paired end reads 
 """
-config["sample_names"].pop("*", None)
-sample_names = list(config["sample_names"].keys())
-
+sample_names = [s for s in config["sample_names"].keys() if s != "*"]
+print(sample_names)
 #quality control rules here
 rule fastp:
     input:
