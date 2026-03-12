@@ -103,7 +103,7 @@ rule run_mitos:
         mkdir {params.outdir}
         runmitos -i {input.fasta} -o {params.outdir} -c {params.genetic_code} -d {params.database}/{params.specific}
         for file in {params.outdir}/*; do
-            mv "$file" {params.outdir}/{sample}_$(basename "$file")"
+            mv "$file" {params.outdir}/{params.sample}_$(basename "$file")"
         done
         """
 
