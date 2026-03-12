@@ -61,7 +61,7 @@ rule install_database:
         os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
     params:
         url ="https://zenodo.org/api/records/4284483/files-archive",
-        out = os.path.join(dir_out, "database", "mitos_db.zip")
+        out = os.path.join(dir_out, "database", "mitos_db.zip"),
         decom=os.path.join(dir_out, "database", "mitos_db")
     shell:
         """
