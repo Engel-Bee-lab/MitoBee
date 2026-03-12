@@ -69,7 +69,6 @@ rule install_database:
         wget -O {params.out} {params.url}
         unzip {params.out}
         mkdir {params.decom}
-        mv refseq* {params.decom}
         for f in {params.decom}/*; do
             tar -xvjf "$f"
             rm -rf "$f"
