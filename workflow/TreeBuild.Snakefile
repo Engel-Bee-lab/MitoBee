@@ -74,6 +74,7 @@ rule install_database:
             tar -xvjf "$f"
             rm -rf "$f"
         done
+        mv refseq* {params.decom}/.
         touch {output}
         """
 
