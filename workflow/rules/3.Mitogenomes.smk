@@ -245,10 +245,11 @@ rule qc_consensus:
 
         frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {{print n/l}}')
 
-        awk -v f=$frac -v m={params.max_frac} 'BEGIN {{ exit !(f <= m) }}'
-
-        echo "PASS: N fraction = $frac"
-
-        cp {input.fasta} {params.filtered_fasta}
+        if awk -v f=$frac -v m={params.max_frac} 'BEGIN {{exit !(f <= m)}}'; then
+            echo "PASS: N fraction = $frac"
+            cp {input.fasta} {params.filtered_fasta}
+        else
+            echo "FAIL: N fraction = $frac"
+        fi
         touch {output.output_fasta}
         """
