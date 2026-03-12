@@ -86,7 +86,7 @@ rule run_mitos:
     params:
         outdir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         genetic_code=2,
-        database=os.path.join(dir_out, "database", "mitos_db")
+        database=os.path.join(dir_out, "database", "mitos_db"),
         specific="refseq89m",
         sample="{sample}"
     conda:
