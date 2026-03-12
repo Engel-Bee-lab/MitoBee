@@ -48,13 +48,65 @@ else:
 dir_env = os.path.join(workflow.basedir,"envs")
 dir_script = os.path.join(workflow.basedir,"scripts")
 
-dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'2_host_cleaned')
+dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'Host_cleaned')
+dir_mitos = os.path.join(dir_out, 'PROCESSING', "mitogenome")
 dir_reports = os.path.join(dir_out, 'REPORTS')
 
 
 """
 Rules
 """
+rule install_database:
+    output:
+        os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
+    params:
+        url ="https://zenodo.org/api/records/4284483/files-archive",
+        out = os.path.join(dir_out, "database", "mitos_db.zip")
+        decom=os.path.join(dir_out, "database", "mitos_db")
+    shell:
+        """
+        set -euo pipefail
+        wget -O {params.out} {params.url}
+        unzip {params.out}
+        mkdir {params.decom}
+        mv refseq* {params.decom}
+        for f in {params.decom}/*; do
+            tar -xvjf "$f"
+            rm -rf "$f"
+        done
+        touch {output}
+        """
+
+rule run_mitos:
+    input:
+        fasta=os.path.join(input_dir, "{sample}.{extn}"),
+        db=os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
+    output:
+        os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.gff")
+    params:
+        outdir=os.path.join(dir_mitos, "{sample}_mitogenome"),
+        genetic_code=2,
+        database=os.path.join(dir_out, "database", "mitos_db")
+        specific="refseq89m",
+        sample="{sample}"
+    conda:
+        os.path.join(dir_env, "mitos.yaml")
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
+    shell:
+        """
+        set -euo pipefail
+        rm -rf {params.outdir}
+        mkdir {params.outdir}
+        runmitos -i {input.fasta} -o {params.outdir} -c {params.genetic_code} -d {params.database}/{params.specific}
+        for file in {params.outdir}/*; do
+            mv "$file" {params.outdir}/{sample}_$(basename "$file")"
+        done
+        """
+
 rule build_alignment_fasta:
     input:
         fasta=expand(os.path.join(input_dir, "{sample}.{extn}"), sample=sample_names, extn=extn)
@@ -99,4 +151,6 @@ rule phylo_tree:
 """Mark target rules"""
 rule all:
     input:
-        os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
+        os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
+        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.gff"), sample=sample_names)
+        #os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
