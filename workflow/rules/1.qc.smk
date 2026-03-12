@@ -1,6 +1,7 @@
 """
 Rules for quality control and quality assurance - Illumina paired end reads 
 """
+config["sample_names"].pop("*", None)
 sample_names = list(config["sample_names"].keys())
 
 #quality control rules here

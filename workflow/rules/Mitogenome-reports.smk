@@ -18,11 +18,8 @@ rule mitogenome_summary:
     localrule: True
     shell:
         r"""
-        awk -v fname="{params.sample}_consensus.fasta" '
-            -v max_frac={params.max_frac} '
-            BEGIN {
-                seq=""
-            }
+        awk -v fname="{params.sample}_consensus.fasta" -v max_frac={params.max_frac} '
+            BEGIN { seq="" }
             /^>/ {{
                 header = substr($0, 2)
                 next
