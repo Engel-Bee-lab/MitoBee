@@ -152,6 +152,6 @@ rule phylo_tree:
 """Mark target rules"""
 rule all:
     input:
-        os.path.join(dir_out, "database", "mitos_db-downlaoded.txt"),
+        os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt"),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.gff"), sample=sample_names, extn=extn),
         #os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
