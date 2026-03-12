@@ -72,7 +72,6 @@ rule install_database:
         mkdir -p {params.decom}
         for f in refseq*; do
             tar -xvjf "$f"
-            rm -rf "$f"
         done
         mv refseq* {params.decom}/.
         touch {output}
@@ -102,7 +101,7 @@ rule run_mitos:
         set -euo pipefail
         rm -rf {params.outdir}
         mkdir {params.outdir}
-        runmitos -i {input.fasta} -o {params.outdir} -c {params.genetic_code} -d {params.database}/{params.specific}
+        runmitos -i {input.fasta} -o {params.outdir} -c {params.genetic_code} -r {params.database}/{params.specific}
         for file in {params.outdir}/*; do
             mv "$file" {params.outdir}/{params.sample}_$(basename "$file")"
         done
