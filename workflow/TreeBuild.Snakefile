@@ -58,7 +58,7 @@ Rules
 """
 rule install_database:
     output:
-        os.path.join(dir_out, "database", "mitos_db-downlaoded.txt")
+        os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt")
     params:
         url ="https://zenodo.org/api/records/4284483/files-archive",
         out = os.path.join(dir_out, "database", "mitos_db.zip"),
@@ -69,6 +69,7 @@ rule install_database:
         wget -O {params.out} {params.url}
 
         unzip {params.out}
+        rm -rf {params.decom}
         mkdir -p {params.decom}
         for f in refseq*; do
             tar -xvjf "$f"
