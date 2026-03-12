@@ -67,9 +67,10 @@ rule install_database:
         """
         set -euo pipefail
         wget -O {params.out} {params.url}
+
         unzip {params.out}
-        mkdir {params.decom}
-        for f in {params.decom}/*; do
+        mkdir -p {params.decom}
+        for f in refseq*; do
             tar -xvjf "$f"
             rm -rf "$f"
         done
