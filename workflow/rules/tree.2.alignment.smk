@@ -98,7 +98,6 @@ rule concat_alignments:
 rule build_tree:
     input:
         fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
-        partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex")
     output:
         tree = os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
     conda:
