@@ -2,37 +2,40 @@
 Merges all the proteins commonly found in all of the samples.
 So if a mitocgenome is partial and missing a gene, then that gene will not be included in the alignment and tree
 """
+import os 
+import glob
+
 rule merge_proteins:
     input:
-        os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt")
+        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=samples)
     output:
-        os.path.join(dir_out, "temp", "{sample}_merged.txt")
+        os.path.join(dir_out, "temp", "genes_merged.txt")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
         indir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         folder=os.path.join(dir_mitos, "mafft"),
-        sample="{sample}"
+        sample=expand(("SAMPLES"), sample=samples)
     shell:
         """
         mkdir -p {params.folder}
-        rm -rf {params.folder}/*.faa
+        rm -f {params.folder}/*.faa
+
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
-            f={params.indir}/{params.sample}_updated_result.faa_prefixed.faa.split/{params.sample}_updated_result.faa_prefixed.part_{params.sample}_${{gene}}.faa
-
-            if [ -f "$f" ]; then
-                cat "$f" >> {params.folder}/${{gene}}.faa
-            else
-                echo "File $f does not exist."
-            fi
+            for sample in {params.sample}
+            do
+                f={params.indir}/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
+                if [ -f "$f" ]; then
+                    cat "$f" >> {params.folder}/${{gene}}.faa
+                else
+                    echo "File $f does not exist."
+                fi
+            done
         done
 
         touch {output}
         """
-
-import os 
-import glob
 
 """Aligns the merged proteins using mafft"""
 rule mafft:
