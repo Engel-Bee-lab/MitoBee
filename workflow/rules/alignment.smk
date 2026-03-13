@@ -12,7 +12,7 @@ rule merge_proteins:
     shell:
         """
         mkdir -p {params.folder}
-
+        rm -rf {params.folder}/*.faa
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
             f={params.indir}/{params.sample}_updated_result.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
