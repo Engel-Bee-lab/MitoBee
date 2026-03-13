@@ -104,9 +104,14 @@ rule build_tree:
         os.path.join(dir_env, "mafft.yaml")
     params:
         iqtree_dir=os.path.join(dir_mitos, "iqtree"),
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
     shell:
         """
-            iqtree -s {input.fasta} -m MFP -bb 1000 -nt AUTO -pre tmp_prefix
+            iqtree -s {input.fasta} -m MFP -bb 1000 -nt {threads} -pre tmp_prefix
             mv tmp_prefix.treefile {output.tree}
             mv tmp_prefix.iqtree {params.iqtree_dir}/.
         """
