@@ -25,5 +25,5 @@ args:
   configfile: 
   temp_dir:
 
-trees:
+tree:
   genes: ["cox1", "cob"]
