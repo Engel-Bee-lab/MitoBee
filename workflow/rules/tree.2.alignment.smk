@@ -7,7 +7,7 @@ import glob
 
 rule merge_proteins:
     input:
-        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=samples)
+        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names)
     output:
         os.path.join(dir_out, "temp", "genes_merged.txt")
     conda:
@@ -15,7 +15,7 @@ rule merge_proteins:
     params:
         indir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         folder=os.path.join(dir_mitos, "mafft"),
-        sample=expand(("SAMPLES"), sample=samples)
+        sample=expand(("SAMPLES"), sample=sample_names)
     shell:
         """
         mkdir -p {params.folder}
