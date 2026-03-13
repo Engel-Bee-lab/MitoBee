@@ -58,15 +58,16 @@ for gene in genes:
         gid = rec.id
         seq = str(rec.seq)
         if gid not in genomes:
-            genomes[gid] = seq
-        else:
-            genomes[gid] += seq
+            genomes[gid] = {}
+        genomes[gid][gene] = seq
 
 #  ---------------------------
 # Concatenate sequences per genome
 # ---------------------------
 concatenated_genomes = {}
 for gid, gene_dict in genomes.items():
+    if not isinstance(gene_dict, dict):
+        raise ValueError(f"Expected a dict for genome {gid}, got {type(gene_dict)}")
     concatenated = ''.join(gene_dict[gene] for gene in genes)
     concatenated_genomes[gid] = concatenated
 
