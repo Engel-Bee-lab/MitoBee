@@ -7,15 +7,14 @@ import glob
 
 rule merge_proteins:
     input:
-        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names)
+        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=SAMPLES)
     output:
         os.path.join(dir_out, "temp", "genes_merged.txt")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
         indir=os.path.join(dir_mitos, "{sample}_mitogenome"),
-        folder=os.path.join(dir_mitos, "mafft"),
-        sample=expand(("SAMPLES"), sample=sample_names)
+        folder=os.path.join(dir_mitos, "mafft")
     shell:
         """
         mkdir -p {params.folder}
@@ -23,7 +22,7 @@ rule merge_proteins:
 
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
-            for sample in {params.sample}
+            for sample in {SAMPLES}
             do
                 f={params.indir}/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
                 if [ -f "$f" ]; then
