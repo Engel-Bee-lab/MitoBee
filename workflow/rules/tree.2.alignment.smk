@@ -92,3 +92,22 @@ rule concat_alignments:
             --partition-txt {output.partitions_txt} \
             --partition-nex {output.partitions_nex}
         """
+
+
+"""Build a tree with the provided concatenated alignment and partition files using IQ-TREE"""
+rule build_tree:
+    input:
+        fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
+        partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex")
+    output:
+        tree = os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
+    conda:
+        os.path.join(dir_env, "mafft.yaml")
+    params:
+        iqtree_dir=os.path.join(dir_mitos, "iqtree"),
+    shell:
+        """
+            iqtree -s {input.final_fasta} -m MFP -bb 1000 -nt AUTO -pre tmp_prefix
+            mv tmp_prefix.treefile {output.tree}
+            mv tmp_prefix.iqtree {params.iqtree_dir}/.
+        """
