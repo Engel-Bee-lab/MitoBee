@@ -13,8 +13,9 @@ rule merge_proteins:
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
-        indir=os.path.join(dir_mitos, "{sample}_mitogenome"),
-        folder=os.path.join(dir_mitos, "mafft")
+        indir=os.path.join(dir_mitos),
+        folder=os.path.join(dir_mitos, "mafft"),
+        samles="".join(sample_names)
     shell:
         """
         mkdir -p {params.folder}
@@ -24,7 +25,7 @@ rule merge_proteins:
         do
             for sample in {sample_names}
             do
-                f={params.indir}/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
+                f={params.indir}/${{sample}}_mitogenome")/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
                 if [ -f "$f" ]; then
                     cat "$f" >> {params.folder}/${{gene}}.faa
                 else
