@@ -62,12 +62,20 @@ for gene in genes:
         else:
             genomes[gid] += seq
 
+#  ---------------------------
+# Concatenate sequences per genome
+# ---------------------------
+concatenated_genomes = {}
+for gid, gene_dict in genomes.items():
+    concatenated = ''.join(gene_dict[gene] for gene in genes if gene in gene_dict)
+    concatenated_genomes[gid] = concatenated
+
 # ---------------------------
 # Write concatenated FASTA
 # ---------------------------
 with open(output_fasta, "w") as outfh:
-    for gid, concatenated in filtered_genomes.items():
-        outfh.write(f">{gid}\n{concatenated}\n")
+    for gid, seq in concatenated_genomes.items():
+        outfh.write(f">{gid}\n{seq}\n")
 
 print(f"[INFO] Concatenated alignment written to {output_fasta}")
 
