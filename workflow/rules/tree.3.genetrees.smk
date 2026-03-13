@@ -51,6 +51,5 @@ rule build_tree:
                 f"mv {tmp_prefix}.treefile {tree_out}; "
                 f"mv {tmp_prefix}.log {log_out}; "
                 f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/."
+                touch {output.tree_dir}
             )
-        touch {output}
-        """
