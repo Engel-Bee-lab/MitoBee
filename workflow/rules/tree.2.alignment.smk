@@ -40,13 +40,14 @@ rule merge_proteins:
 """Aligns the merged proteins using mafft"""
 rule mafft:
     input:
-        expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=sample_names)
+        os.path.join(dir_out, "temp", "genes_merged.txt")
     output:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
         indir=os.path.join(dir_mitos, "mafft"),
+        genomes_count=len(sample_names)
     resources:
         mem_mb =config['resources']['smalljob']['mem_mb'],
         runtime = config['resources']['smalljob']['runtime']
@@ -57,7 +58,15 @@ rule mafft:
         for f in {params.indir}/*.faa
         do
             gene=$(basename "$f" .faa)
-            mafft --auto --thread {threads} "$f" > {params.indir}/${{gene}}_aligned.faa
+            #count sequences in the fasta file 
+            seq_count=$(grep -c "^>" "$f")
+
+            #only align if gene present in all genomes
+            if [ "$seq_count" -eq {params.genomes_count} ]; then
+                mafft --auto --thread {threads} "$f" > {params.indir}/${{gene}}_aligned.faa
+            else
+                echo "Skipping $f because it has $seq_count sequences, expected {params.genomes_count}."
+            fi  
         done
         touch {output.folder}
         """
