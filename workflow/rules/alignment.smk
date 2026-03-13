@@ -58,3 +58,19 @@ rule mafft:
         done
         touch {output.folder}
         """
+
+"""Concatenates the aligned proteins into a single file for tree building"""
+rule concat_alignments:
+    input:
+        folder=os.path.join(dir_out, "temp", "aligned_done.txt") 
+    output:
+        os.path.join(dir_out, "mafft", "concatenated_alignment.faa")
+    params:
+        script="workflow/scripts/concat_alignments.py",
+        indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
+    conda:
+        os.path.join(dir_env, "biopython.yaml")  # make sure Biopython is installed
+    shell:
+        """
+        {params.script} {params.indir} {output}
+        """

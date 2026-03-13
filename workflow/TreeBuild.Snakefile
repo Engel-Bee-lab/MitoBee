@@ -106,5 +106,6 @@ rule all:
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names, extn=extn),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
         expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=sample_names),
-        os.path.join(dir_out, "temp", "aligned_done.txt")
+        os.path.join(dir_out, "temp", "aligned_done.txt"),
+        os.path.join(dir_out, "mafft", "concatenated_alignment.faa")
         #os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
