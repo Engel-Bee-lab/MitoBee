@@ -16,7 +16,7 @@ rule build_tree:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
         gene_list=config["tree"]["genes"],
     output:
-        tree_dir=os.path.join(dir_out, "gene_trees", "done")
+        tree_dir=os.path.join(dir_out, "temp", "gene_trees_done")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:

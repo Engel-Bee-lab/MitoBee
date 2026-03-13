@@ -72,4 +72,4 @@ rule all:
         os.path.join(dir_mitos, "mafft", "Partitions.nex"),
         os.path.join(dir_reports, "mitogenome_phylo_tree.nwk"),
         os.path.join(dir_reports, "mitogenome_phylo_tree.log"),
-        os.path.join(dir_out, "gene_trees", "done")
+        os.path.join(dir_out, "temp", "gene_trees_done")
