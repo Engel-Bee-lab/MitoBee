@@ -8,13 +8,14 @@ gene_list = config["tree"]["genes"]
 rule build_gene_tree:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
-        aln_file=os.path.join(dir_mitos, "mafft", "{gene}_aligned.faa")
+        faa=os.path.join(dir_mitos, "mafft", "{gene}.faa")
     output:
         tree_file=os.path.join(dir_reports, "gene_trees", "{gene}.treefile"),
         log_file=os.path.join(dir_reports, "gene_trees", "{gene}.log")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
+        aln_file=os.path.join(dir_mitos, "mafft", "{gene}_aligned.faa"),
         iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp"),
         output_dir=os.path.join(dir_reports, "gene_trees"),
         gene="{gene}"
@@ -28,7 +29,7 @@ rule build_gene_tree:
         mkdir {params.iqtree_dir} 
         mkdir {params.output_dir}
 
-        if [ -f {input.aln_file} ]; then
+        if [ -f {params.aln_file} ]; then
             echo "Alignment file for gene '{wildcards.gene}' found. Proceeding with tree building."
             iqtree -s {input.aln_file} -m MFP -bb 1000 -nt {threads} -pre {params.gene}"
             mv {params.gene}.treefile {params.output_dir}/.
