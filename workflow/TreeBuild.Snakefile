@@ -52,7 +52,7 @@ dir_hostcleaned = os.path.join(dir_out, 'PROCESSING' ,'Host_cleaned')
 dir_mitos = os.path.join(dir_out, 'PROCESSING', "mitogenome")
 dir_reports = os.path.join(dir_out, 'REPORTS')
 
-
+gene_list = config["tree"]["genes"] 
 """
 Rules
 """
@@ -73,4 +73,5 @@ rule all:
         os.path.join(dir_mitos, "mafft", "Partitions.nex"),
         os.path.join(dir_reports, "mitogenome_phylo_tree.nwk"),
         os.path.join(dir_reports, "mitogenome_phylo_tree.log"),
-        os.path.join(dir_out, "temp", "gene_trees_done")
+        # output files for all genes
+        expand(os.path.join(dir_reports, "gene_trees", "{gene}.treefile"), gene=gene_list)
