@@ -67,7 +67,7 @@ for gene in genes:
 # ---------------------------
 concatenated_genomes = {}
 for gid, gene_dict in genomes.items():
-    concatenated = ''.join(gene_dict[gene] for gene in genes if gene in gene_dict)
+    concatenated = ''.join(gene_dict[gene] for gene in genes)
     concatenated_genomes[gid] = concatenated
 
 # ---------------------------
