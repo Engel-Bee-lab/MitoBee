@@ -76,8 +76,8 @@ rule concat_alignments:
     shell:
         """
         ./{params.script} \
-            {params.tmp_dir} \
-            {output.fasta} \
-            {output.partitions_txt} \
-            {output.partitions_nex}
+            --tmp_dir {params.tmp_dir} \
+            --output-fasta {output.fasta} \
+            --partition-txt {output.partitions_txt} \
+            --partition-next {output.partitions_nex}
         """
