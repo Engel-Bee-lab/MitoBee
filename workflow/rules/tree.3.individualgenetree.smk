@@ -16,11 +16,12 @@ rule build_tree:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
         gene_list=config["tree"]["genes"],
     output:
-        tree_dir=os.path.join(dir_reports, "gene_trees")
+        tree_dir=os.path.join(dir_out, "gene_trees", "done")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
-        iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp")
+        iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp"),
+        output_dir=os.path.join(dir_reports, "gene_trees")
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
         runtime=config['resources']['smalljob']['runtime']
@@ -52,10 +53,12 @@ rule build_tree:
             )
 
             # move outputs to final directory
-            tree_out = os.path.join(output.tree_dir, f"{gene}.treefile")
-            log_out = os.path.join(output.tree_dir, f"{gene}.log")
+            tree_out = os.path.join(params.tree_dir, f"{gene}.treefile")
+            log_out = os.path.join(params.tree_dir, f"{gene}.log")
             shell(
                 f"mv {tmp_prefix}.treefile {tree_out}; "
                 f"mv {tmp_prefix}.log {log_out}; "
                 f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/."
             )
+        touch {output}
+        """
