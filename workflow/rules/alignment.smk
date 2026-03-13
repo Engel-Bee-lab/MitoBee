@@ -18,7 +18,7 @@ rule merge_proteins:
             f={params.indir}/{params.sample}_updated_result.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
 
             if [-f "$f"]; then
-                cat "$f" >> {params.folder}${{gene}}.faa
+                cat "$f" >> {params.folder}/${{gene}}.faa
             else
                 echo "File $f does not exist."
             fi
