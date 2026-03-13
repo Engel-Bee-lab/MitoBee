@@ -37,7 +37,7 @@ import glob
 """Aligns the merged proteins using mafft"""
 rule mafft:
     input:
-        expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=samples)
+        expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=sample_names)
     output:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt")
     conda:
