@@ -104,5 +104,6 @@ rule all:
     input:
         os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt"),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names, extn=extn),
-        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names)
+        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
+        os.path.join(dir_mitos, "mafft", "merged.txt")
         #os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
