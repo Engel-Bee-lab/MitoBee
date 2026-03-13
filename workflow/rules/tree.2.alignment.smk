@@ -99,7 +99,8 @@ rule build_tree:
     input:
         fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
     output:
-        tree = os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
+        tree = os.path.join(dir_reports, "mitogenome_phylo_tree.nwk"),
+        log = os.path.join(dir_reports, "mitogenome_phylo_tree.log")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
@@ -111,7 +112,9 @@ rule build_tree:
         config['resources']['smalljob']['threads']
     shell:
         """
+            mkdir -p {params.iqtree_dir}
             iqtree -s {input.fasta} -m MFP -bb 1000 -nt {threads} -pre tmp_prefix
             mv tmp_prefix.treefile {output.tree}
+            mv tmp_prefix.log {output.log}
             mv tmp_prefix.iqtree {params.iqtree_dir}/.
         """
