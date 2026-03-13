@@ -1,17 +1,9 @@
 """
-Buidling from tree.2.aligment.smk, building gene trees 
-Only of the genes present in all the genomes 
-"""
-
-"""Build a tree with the provided concatenated alignment and partition files using IQ-TREE
+Build a tree with the provided concatenated alignment and partition files using IQ-TREE
 User provided which genes, otherwise defaults to cox1, and cob 
 To change this, edit the config.yaml file and add the genes to be used for tree building under tree:genes
 """
 rule build_tree:
-    """
-    Build trees for individual genes using IQ-TREE.
-    Skips genes that were not aligned (e.g., missing in some genomes).
-    """
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
         gene_list=config["tree"]["genes"],
