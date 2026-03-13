@@ -4,7 +4,7 @@ rule merge_proteins:
     output:
         os.path.join(dir_out, "temp", "{sample}_merged.txt")
     conda:
-        os.path.join(envs_dir, "mafft.yaml")
+        os.path.join(dir_env, "mafft.yaml")
     params:
         indir=os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_consensus_updated_result.faa.split"),
         folder=os.path.join(dir_mitos, "mafft"),
