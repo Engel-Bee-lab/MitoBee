@@ -64,13 +64,20 @@ rule concat_alignments:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt") 
     output:
-        os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa")
+        fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
+        partitions_txt=os.path.join(dir_mitos, "mafft", "Partitions.txt"),
+        partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex")
     params:
         script="workflow/scripts/concat_alignments.py",
-        indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
+        indir=os.path.join(dir_mitos, "mafft"), # folder with *_aligned.faa,
+        tmp_dir=os.path.join(dir_out, "temp")
     conda:
         os.path.join(dir_env, "seqkit.yaml")  # make sure Biopython is installed
     shell:
         """
-        ./{params.script} {params.indir} {output}
+        ./{params.script} \
+            {params.tmp_dir} \
+            {output.fasta} \
+            {output.partitions_txt} \
+            {output.partitions_nex}
         """
