@@ -71,7 +71,7 @@ rule separate_faa:
 
         # prepend sample ID to headers
         seqkit fx2tab {params.updatedfaa} -n -i | \
-        awk -v sample="{params.sample}" '{print ">"sample"_"$1"\n"$2}' | \
+        awk -v sample="{wildcards.sample}" '{{printf(">%s_%s\\n%s\\n", sample, $1, $2)}}' | \
         seqkit tab2fx -o {params.updatedfaa}_prefixed.faa
 
         #split faa 
