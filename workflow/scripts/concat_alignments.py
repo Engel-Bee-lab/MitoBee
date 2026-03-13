@@ -64,6 +64,10 @@ print (genomes)
 #  ---------------------------
 # Concatenate sequences per genome
 # ---------------------------
+# only keep genes that had an alignment file and at least one record
+present_genes = [gene for gene in genes if gene in gene_lengths]
+print (present_genes)
+
 concatenated_genomes = {}
 for gid, gene_dict in genomes.items():
     missing_genes = [gene for gene in genes if gene not in gene_dict]
