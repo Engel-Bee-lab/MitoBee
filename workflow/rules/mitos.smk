@@ -59,12 +59,16 @@ rule separate_faa:
     params:
         outdir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         updatedfaa=os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_updated_result.faa"),
+        sample="{sample}"
     conda:
         os.path.join(dir_env, "seqkit.yaml")
     shell:
         """
         set -euo pipefail
-        seqkit replace -p '.*; ' -r '' {input.faa} -o {params.updatedfaa}
-        seqkit split -i {params.updatedfaa}
+        seqkit fx2tab {params.updatedfaa} -n -i | \
+        awk -v sample="{params.sample}" '{print ">"sample"_"$1"\n"$2}' | \
+        seqkit tab2fx -o {params.updatedfaa}_prefixed.faa
+
+        seqkit split -i {params.updatedfaa}_prefixed.faa
         touch {output}
         """
