@@ -69,7 +69,7 @@ rule concat_alignments:
         script="workflow/scripts/concat_alignments.py",
         indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
     conda:
-        os.path.join(dir_env, "biopython.yaml")  # make sure Biopython is installed
+        os.path.join(dir_env, "seqkit.yaml")  # make sure Biopython is installed
     shell:
         """
         {params.script} {params.indir} {output}
