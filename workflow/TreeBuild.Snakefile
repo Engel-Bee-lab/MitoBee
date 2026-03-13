@@ -57,6 +57,7 @@ dir_reports = os.path.join(dir_out, 'REPORTS')
 Rules
 """
 include: os.path.join("rules", "mitos.smk")
+include: os.path.join("rules", "alignment.smk")
 
 rule build_alignment_fasta:
     input:
