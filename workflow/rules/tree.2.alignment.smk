@@ -25,9 +25,9 @@ rule merge_proteins:
         do
             for sample in {params.samples}
             do
-                f={params.indir}/${{sample}}_mitogenome")/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
+                f={params.indir}/${{sample}}_mitogenome/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
                 if [ -f "$f" ]; then
-                    cat "$f" >> {params.folder}/${{gene}}.faa
+                    cat "$f" >> {params.folder}/${gene}.faa
                 else
                     echo "File $f does not exist."
                 fi
