@@ -2,26 +2,33 @@
 
 import os
 from Bio import SeqIO
+import argparse
 
-# ---------------------------
-# Snakemake variables
-# ---------------------------
-# snakemake.input.tmp_dir -> folder with *_aligned.faa files
-# snakemake.output.fasta -> concatenated FASTA
-# snakemake.output.partitions_txt -> Partitions.txt
-# snakemake.output.partitions_nex -> Partitions.nex
+def get_paths():
+    # Snakemake execution context
+    if "snakemake" in globals():
+        tmp_dir = os.path.abspath(snakemake.params.tmp_dir)
+        output_fasta = os.path.abspath(snakemake.output.fasta)
+        partition_txt = os.path.abspath(snakemake.output.partitions_txt)
+        partition_nex = os.path.abspath(snakemake.output.partitions_nex)
+        return tmp_dir, output_fasta, partition_txt, partition_nex
 
-try:
-    tmp_dir = os.path.abspath(snakemake.params.tmp_dir)
-    output_fasta = os.path.abspath(snakemake.output.fasta)
-    partition_txt = os.path.abspath(snakemake.output.partitions_txt)
-    partition_nex = os.path.abspath(snakemake.output.partitions_nex)
-except NameError:
-    # Mock values for testing outside Snakemake
-    tmp_dir = os.path.abspath("input_tmp_dir")
-    output_fasta = os.path.abspath("output_concat.fasta")
-    partition_txt = os.path.abspath("output_partitions.txt")
-    partition_nex = os.path.abspath("output_partitions.nex")
+    # Standalone execution context
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--tmp-dir", required=True)
+    parser.add_argument("--output-fasta", required=True)
+    parser.add_argument("--partition-txt", required=True)
+    parser.add_argument("--partition-nex", required=True)
+    args = parser.parse_args()
+
+    return (
+        os.path.abspath(args.tmp_dir),
+        os.path.abspath(args.output_fasta),
+        os.path.abspath(args.partition_txt),
+        os.path.abspath(args.partition_nex),
+    )
+
+tmp_dir, output_fasta, partition_txt, partition_nex = get_paths()
 
 os.makedirs(os.path.dirname(output_fasta), exist_ok=True)
 os.makedirs(os.path.dirname(partition_txt), exist_ok=True)
