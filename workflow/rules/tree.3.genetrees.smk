@@ -6,7 +6,7 @@ To change this, edit the config.yaml file and add the genes to be used for tree 
 rule build_gene_tree:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
-        aln_file=lambda wildcards: os.path.join(dir_mitos, "mafft", f"{wildcards.gene}_aligned.faa"),
+        aln_file=os.path.join(dir_mitos, "mafft", "{gene}_aligned.faa"),
         gene_list=config["tree"]["genes"],
     output:
         tree_file=os.path.join(dir_reports, "gene_trees", "{gene}.treefile"),
