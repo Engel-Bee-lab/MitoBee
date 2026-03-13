@@ -64,7 +64,7 @@ rule concat_alignments:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt") 
     output:
-        os.path.join(dir_out, "mafft", "concatenated_alignment.faa")
+        os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa")
     params:
         script="workflow/scripts/concat_alignments.py",
         indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
