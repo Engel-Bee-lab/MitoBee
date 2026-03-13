@@ -15,7 +15,7 @@ rule merge_proteins:
     params:
         indir=os.path.join(dir_mitos),
         folder=os.path.join(dir_mitos, "mafft"),
-        samles="".join(sample_names)
+        samples="".join(sample_names)
     shell:
         """
         mkdir -p {params.folder}
@@ -23,7 +23,7 @@ rule merge_proteins:
 
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
-            for sample in {sample_names}
+            for sample in "{params.samples}"
             do
                 f={params.indir}/${{sample}}_mitogenome")/${{sample}}_updated_result.faa_prefixed.faa.split/${{sample}}_updated_result.faa_prefixed.part_${{sample}}_${{gene}}.faa
                 if [ -f "$f" ]; then
