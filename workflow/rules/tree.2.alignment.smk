@@ -78,7 +78,7 @@ rule concat_alignments:
     output:
         fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
         partitions_txt=os.path.join(dir_mitos, "mafft", "Partitions.txt"),
-        partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex")
+        partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex"),
         indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
     params:
         script="workflow/scripts/concat_alignments.py",
