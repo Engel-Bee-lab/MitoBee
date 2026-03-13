@@ -69,9 +69,9 @@ rule separate_faa:
         seqkit replace -p '.*; ' -r '' {input.faa} -o {params.updatedfaa}
 
         # prepend sample ID to headers
-        seqkit fx2tab {params.updatedfaa} -n -i | \
-        awk -v sample="{wildcards.sample}" '{{printf(">%s_%s\\n%s\\n", sample, $1, $2)}}' | \
-        seqkit tab2fx -o {params.updatedfaa}_prefixed.faa
+        seqkit fx2tab {params.updatedfaa} -n -s | \
+        awk -v sample="{params.sample}" '{{printf(">%s_%s\\n%s\\n", sample, $1, $2)}}' \
+        >{params.updatedfaa}_prefixed.faa
 
         #split faa 
         seqkit split -i {params.updatedfaa}_prefixed.faa
