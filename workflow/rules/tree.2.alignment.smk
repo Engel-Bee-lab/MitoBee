@@ -15,7 +15,7 @@ rule merge_proteins:
     params:
         indir=os.path.join(dir_mitos),
         folder=os.path.join(dir_mitos, "mafft"),
-        samples="".join(sample_names)
+        samples=" ".join(sample_names)
     shell:
         """
         mkdir -p {params.folder}
