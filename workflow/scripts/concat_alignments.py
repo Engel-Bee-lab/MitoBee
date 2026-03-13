@@ -5,14 +5,6 @@ from Bio import SeqIO
 import argparse
 
 def get_paths():
-    # Snakemake execution context
-    if "snakemake" in globals():
-        tmp_dir = os.path.abspath(snakemake.params.tmp_dir)
-        output_fasta = os.path.abspath(snakemake.output.fasta)
-        partition_txt = os.path.abspath(snakemake.output.partitions_txt)
-        partition_nex = os.path.abspath(snakemake.output.partitions_nex)
-        return tmp_dir, output_fasta, partition_txt, partition_nex
-
     # Standalone execution context
     parser = argparse.ArgumentParser()
     parser.add_argument("--tmp-dir", required=True)
@@ -55,20 +47,41 @@ for gene in genes:
         continue
 
     records = list(SeqIO.parse(aln_file, "fasta"))
+    if not records:
+        print(f"[WARN] {gene}_aligned.faa is empty, skipping")
+        continue
+    
+    # Record gene length from first sequence
     gene_lengths[gene] = len(records[0].seq)
 
     for rec in records:
         gid = rec.id
+        seq = str(rec.seq)
         if gid not in genomes:
-            genomes[gid] = []
-        genomes[gid].append(str(rec.seq))
+            genomes[gid] = seq
+        else:
+            genomes[gid] += seq
+
+# ---------------------------
+# Filter genomes: only keep genomes that have all genes
+# ---------------------------
+expected_genes = len(gene_lengths)
+filtered_genomes = {}
+for gid, seq in genomes.items():
+    if len(seq) == sum(gene_lengths.values()):
+        filtered_genomes[gid] = seq
+    else:
+        print(f"[WARN] Genome {gid} missing genes, excluded from concatenation")
+
+if not filtered_genomes:
+    raise RuntimeError("[ERROR] No genomes have all genes; cannot create concatenated alignment")
+
 
 # ---------------------------
 # Write concatenated FASTA
 # ---------------------------
 with open(output_fasta, "w") as outfh:
-    for gid, seqs in genomes.items():
-        concatenated = ''.join(seqs)
+    for gid, concatenated in filtered_genomes.items():
         outfh.write(f">{gid}\n{concatenated}\n")
 
 print(f"[INFO] Concatenated alignment written to {output_fasta}")
