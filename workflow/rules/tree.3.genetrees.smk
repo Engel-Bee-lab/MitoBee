@@ -9,9 +9,8 @@ rule build_gene_tree:
         aln_file=lambda wildcards: os.path.join(dir_mitos, "mafft", f"{wildcards.gene}_aligned.faa"),
         gene_list=config["tree"]["genes"],
     output:
-        tree_files=lambda wildcards: [
-            os.path.join(dir_reports, "gene_trees", f"{gene}.treefile") for gene in gene_list
-        ]
+        tree_file=os.path.join(dir_reports, "gene_trees", "{gene}.treefile"),
+        log_file=os.path.join(dir_reports, "gene_trees", "{gene}.log")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
