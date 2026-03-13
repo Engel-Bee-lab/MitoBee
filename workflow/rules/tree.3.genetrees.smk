@@ -16,43 +16,27 @@ rule build_gene_tree:
         os.path.join(dir_env, "mafft.yaml")
     params:
         iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp"),
-        output_dir=os.path.join(dir_reports, "gene_trees")
+        output_dir=os.path.join(dir_reports, "gene_trees"),
+        gene="{gene}"
     resources:
         mem_mb=config['resources']['smalljob']['mem_mb'],
         runtime=config['resources']['smalljob']['runtime']
     threads:
         config['resources']['smalljob']['threads']
-    run:
-        import os
+    shell:
+        """
+        mkdir {params.iqtree_dir} 
+        mkdir {params.output_dir}
 
-        # make output directories
-        os.makedirs(output.tree_dir, exist_ok=True)
-        os.makedirs(params.iqtree_dir, exist_ok=True)
-
-        # iterate over each gene
-        for gene in input.gene_list:
-            aln_file = os.path.join(dir_mitos, "mafft", f"{gene}_aligned.faa")
-            
-            # check if alignment exists
-            if not os.path.exists(aln_file):
-                print(f"[WARN] Alignment file for gene '{gene}' not found. Skipping tree for this gene.")
-                continue
-            
-            print(f"[INFO] Building tree for gene: {gene}")
-
-            tmp_prefix = os.path.join(params.iqtree_dir, f"{gene}_tmp")
-
-            # run IQ-TREE
-            shell(
-                f"iqtree -s {aln_file} -m MFP -bb 1000 -nt {threads} -pre {tmp_prefix}"
-            )
-
-            # move outputs to final directory
-            tree_out = os.path.join(params.tree_dir, f"{gene}.treefile")
-            log_out = os.path.join(params.tree_dir, f"{gene}.log")
-            shell(
-                f"mv {tmp_prefix}.treefile {tree_out}; "
-                f"mv {tmp_prefix}.log {log_out}; "
-                f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/."
-                f"touch {output.tree_dir}"
-            )
+        if [ -f {input.aln_file} ]; then
+            echo "Alignment file for gene '{wildcards.gene}' found. Proceeding with tree building."
+            iqtree -s {input.aln_file} -m MFP -bb 1000 -nt {threads} -pre {params.gene}"
+            mv {params.gene}.treefile {params.output_dir}/.
+            mv {params.gene}.log {params.output_dir}/.
+            mv {params.gene}.* {params.iqtree_dir}/.
+        else
+            echo "Alignment file for gene '{wildcards.gene}' not found. Skipping tree building for this gene."
+            touch {output.tree_file}
+            touch {output.log_file}
+        fi
+        """

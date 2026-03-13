@@ -26,4 +26,4 @@ args:
   temp_dir:
 
 tree:
-  genes: ["cox1"]
+  genes: ["cox1", "cob"]
