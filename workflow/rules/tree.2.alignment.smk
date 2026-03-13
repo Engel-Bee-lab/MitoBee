@@ -19,7 +19,7 @@ rule merge_proteins:
         rm -rf {params.folder}/*.faa
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
-            f={params.indir}/{params.sample}_updated_result.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
+            f={params.indir}/{params.sample}_updated_result.faa_prefixed.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
 
             if [ -f "$f" ]; then
                 cat "$f" >> {params.folder}/${{gene}}.faa
