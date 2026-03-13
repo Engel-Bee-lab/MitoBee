@@ -55,21 +55,18 @@ for gene in genes:
 
     for rec in records:
         gid = rec.id.rsplit('_', 1)[0] # Extract genome ID by removing gene suffix
-        print (gid)
         seq = str(rec.seq)
         if gid not in genomes:
             genomes[gid] = {}
         genomes[gid][gene] = seq
 
+print (genomes)
 #  ---------------------------
 # Concatenate sequences per genome
 # ---------------------------
 concatenated_genomes = {}
 for gid, gene_dict in genomes.items():
     missing_genes = [gene for gene in genes if gene not in gene_dict]
-    if missing_genes:
-        print(f"[WARN] Genome {gid} is missing genes: {missing_genes}")
-        continue
     if not isinstance(gene_dict, dict):
         raise ValueError(f"Expected a dict for genome {gid}, got {type(gene_dict)}")
     concatenated = ''.join(gene_dict[gene] for gene in genes)
