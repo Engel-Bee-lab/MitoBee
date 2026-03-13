@@ -49,6 +49,7 @@ gene_lengths = {}    # gene -> length of aligned sequence
 
 for gene in genes:
     aln_file = os.path.join(tmp_dir, f"{gene}_aligned.faa")
+    print(aln_file)
     if not os.path.exists(aln_file):
         print(f"[INFO] {gene}_aligned.faa not found, skipping")
         continue
