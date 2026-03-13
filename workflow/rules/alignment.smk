@@ -75,9 +75,8 @@ rule concat_alignments:
         os.path.join(dir_env, "seqkit.yaml")  # make sure Biopython is installed
     shell:
         """
-        ./{params.script} \
-            --tmp_dir {params.tmp_dir} \
+        ./{params.script} --tmp_dir {params.tmp_dir} \
             --output-fasta {output.fasta} \
             --partition-txt {output.partitions_txt} \
-            --partition-next {output.partitions_nex}
+            --partition-nex {output.partitions_nex}
         """
