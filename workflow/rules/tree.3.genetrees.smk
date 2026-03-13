@@ -3,7 +3,7 @@ Build a tree with the provided concatenated alignment and partition files using 
 User provided which genes, otherwise defaults to cox1, and cob 
 To change this, edit the config.yaml file and add the genes to be used for tree building under tree:genes
 """
-rule build_tree:
+rule build_gene_tree:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
         gene_list=config["tree"]["genes"],
