@@ -58,7 +58,7 @@ Rules
 """
 include: os.path.join("rules", "tree.1.mitos.smk")
 include: os.path.join("rules", "tree.2.alignment.smk")
-include: os.path.join("rules", "tree.3.tree_building.smk")
+include: os.path.join("rules", "tree.3.genetrees.smk")
 
 """Mark target rules"""
 rule all:
