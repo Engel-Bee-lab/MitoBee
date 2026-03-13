@@ -63,21 +63,6 @@ for gene in genes:
             genomes[gid] += seq
 
 # ---------------------------
-# Filter genomes: only keep genomes that have all genes
-# ---------------------------
-expected_genes = len(gene_lengths)
-filtered_genomes = {}
-for gid, seq in genomes.items():
-    if len(seq) == sum(gene_lengths.values()):
-        filtered_genomes[gid] = seq
-    else:
-        print(f"[WARN] Genome {gid} missing genes, excluded from concatenation")
-
-if not filtered_genomes:
-    raise RuntimeError("[ERROR] No genomes have all genes; cannot create concatenated alignment")
-
-
-# ---------------------------
 # Write concatenated FASTA
 # ---------------------------
 with open(output_fasta, "w") as outfh:
