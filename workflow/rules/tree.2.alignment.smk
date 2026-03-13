@@ -79,6 +79,7 @@ rule concat_alignments:
         fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
         partitions_txt=os.path.join(dir_mitos, "mafft", "Partitions.txt"),
         partitions_nex=os.path.join(dir_mitos, "mafft", "Partitions.nex")
+        indir=os.path.join(dir_mitos, "mafft") # folder with *_aligned.faa
     params:
         script="workflow/scripts/concat_alignments.py",
         indir=os.path.join(dir_mitos, "mafft"), # folder with *_aligned.faa,
@@ -87,7 +88,7 @@ rule concat_alignments:
         os.path.join(dir_env, "seqkit.yaml")  # make sure Biopython is installed
     shell:
         """
-        ./{params.script} --tmp-dir {params.tmp_dir} \
+        ./{params.script} --tmp-dir {params.indir} \
             --output-fasta {output.fasta} \
             --partition-txt {output.partitions_txt} \
             --partition-nex {output.partitions_nex}
