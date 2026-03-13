@@ -30,13 +30,13 @@ rule build_gene_tree:
         mkdir {params.output_dir}
 
         if [ -f {params.aln_file} ]; then
-            echo "Alignment file for gene '{params.gene}' found. Proceeding with tree building."
-            iqtree -s {params.aln_file} -m MFP -bb 1000 -nt {threads} -pre {params.gene}"
+            echo "Alignment file for gene {params.gene} found. Proceeding with tree building."
+            iqtree -s {params.aln_file} -m MFP -bb 1000 -nt {threads} -pre "{params.gene}"
             mv {params.gene}.treefile {params.output_dir}/.
             mv {params.gene}.log {params.output_dir}/.
             mv {params.gene}.* {params.iqtree_dir}/.
         else
-            echo "Alignment file for gene '{params.gene}' not found. Skipping tree building for this gene."
+            echo "Alignment file for gene {params.gene} not found. Skipping tree building for this gene."
             touch {output.tree_file}
             touch {output.log_file}
         fi
