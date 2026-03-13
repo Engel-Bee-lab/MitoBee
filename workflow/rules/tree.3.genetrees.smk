@@ -48,8 +48,8 @@ rule build_tree:
             tree_out = os.path.join(params.tree_dir, f"{gene}.treefile")
             log_out = os.path.join(params.tree_dir, f"{gene}.log")
             shell(
-                f"mv {tmp_prefix}.treefile {tree_out}; ",
-                f"mv {tmp_prefix}.log {log_out}; ",
-                f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/.", 
-                touch {output.tree_dir}
+                f"mv {tmp_prefix}.treefile {tree_out}; "
+                f"mv {tmp_prefix}.log {log_out}; "
+                f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/."
+                f"touch {output.tree_dir}"
             )
