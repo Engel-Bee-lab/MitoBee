@@ -41,7 +41,6 @@ gene_lengths = {}    # gene -> length of aligned sequence
 
 for gene in genes:
     aln_file = os.path.join(tmp_dir, f"{gene}_aligned.faa")
-    print(aln_file)
     if not os.path.exists(aln_file):
         print(f"[INFO] {gene}_aligned.faa not found, skipping")
         continue
@@ -55,7 +54,7 @@ for gene in genes:
     gene_lengths[gene] = len(records[0].seq)
 
     for rec in records:
-        gid = rec.id
+        gid = rec.id.rsplit('_', 1)[0] # Extract genome ID by removing gene suffix
         seq = str(rec.seq)
         if gid not in genomes:
             genomes[gid] = {}
