@@ -65,7 +65,7 @@ rule separate_faa:
     shell:
         """
         set -euo pipefail
-
+        rm -rf {params.outdir}/*.faa
         # remove trailing "; "
         seqkit replace -p '.*; ' -r '' {input.faa} -o {params.updatedfaa}
 
