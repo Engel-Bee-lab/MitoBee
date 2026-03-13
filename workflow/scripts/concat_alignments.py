@@ -60,7 +60,7 @@ for gene in genes:
             genomes[gid] = {}
         genomes[gid][gene] = seq
 
-print (genomes)
+#print (genomes)
 #  ---------------------------
 # Concatenate sequences per genome
 # ---------------------------
@@ -70,10 +70,7 @@ print (present_genes)
 
 concatenated_genomes = {}
 for gid, gene_dict in genomes.items():
-    missing_genes = [gene for gene in genes if gene not in gene_dict]
-    if not isinstance(gene_dict, dict):
-        raise ValueError(f"Expected a dict for genome {gid}, got {type(gene_dict)}")
-    concatenated = ''.join(gene_dict[gene] for gene in genes)
+    concatenated = ''.join(gene_dict[gene] for gene in present_genes)
     concatenated_genomes[gid] = concatenated
 
 # ---------------------------
@@ -89,10 +86,9 @@ print(f"[INFO] Concatenated alignment written to {output_fasta}")
 # Write Partitions.txt
 # ---------------------------
 curr_start = 1
+curr_start = 1
 with open(partition_txt, "w") as f:
-    for gene in genes:
-        if gene not in gene_lengths:
-            continue
+    for gene in present_genes:
         length = gene_lengths[gene]
         curr_stop = curr_start + length - 1
         f.write(f"AA, {gene} = {curr_start}-{curr_stop}\n")
