@@ -106,7 +106,7 @@ rule build_tree:
         iqtree_dir=os.path.join(dir_mitos, "iqtree"),
     shell:
         """
-            iqtree -s {input.final_fasta} -m MFP -bb 1000 -nt AUTO -pre tmp_prefix
+            iqtree -s {input.fasta} -m MFP -bb 1000 -nt AUTO -pre tmp_prefix
             mv tmp_prefix.treefile {output.tree}
             mv tmp_prefix.iqtree {params.iqtree_dir}/.
         """
