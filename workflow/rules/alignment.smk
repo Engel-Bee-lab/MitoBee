@@ -1,3 +1,7 @@
+"""
+Merges all the proteins commonly found in all of the samples.
+So if a mitocgenome is partial and missing a gene, then that gene will not be included in the alignment and tree
+"""
 rule merge_proteins:
     input:
         os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt")
@@ -25,4 +29,32 @@ rule merge_proteins:
         done
 
         touch {output}
+        """
+
+import os 
+import glob
+
+"""Aligns the merged proteins using mafft"""
+rule mafft:
+    input:
+        expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=samples)
+    output:
+        folder=os.path.join(dir_out, "temp", "aligned_done.txt")
+    conda:
+        os.path.join(dir_env, "mafft.yaml")
+    params:
+        indir=os.path.join(dir_out, "mafft"),
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
+    shell:
+        """
+        for f in {params.indir}/*.faa
+        do
+            gene=$(basename "$f" .faa)
+            mafft --auto --thread {threads} "$f" > {params.indir}/${{gene}}_aligned.faa
+        done
+        touch {output.folder}
         """
