@@ -11,10 +11,17 @@ from Bio import SeqIO
 # snakemake.output.partitions_txt -> Partitions.txt
 # snakemake.output.partitions_nex -> Partitions.nex
 
-tmp_dir = os.path.abspath(snakemake.input.tmp_dir)
-output_fasta = os.path.abspath(snakemake.output.fasta)
-partition_txt = os.path.abspath(snakemake.output.partitions_txt)
-partition_nex = os.path.abspath(snakemake.output.partitions_nex)
+try:
+    tmp_dir = os.path.abspath(snakemake.params.tmp_dir)
+    output_fasta = os.path.abspath(snakemake.output.fasta)
+    partition_txt = os.path.abspath(snakemake.output.partitions_txt)
+    partition_nex = os.path.abspath(snakemake.output.partitions_nex)
+except NameError:
+    # Mock values for testing outside Snakemake
+    tmp_dir = os.path.abspath("input_tmp_dir")
+    output_fasta = os.path.abspath("output_concat.fasta")
+    partition_txt = os.path.abspath("output_partitions.txt")
+    partition_nex = os.path.abspath("output_partitions.nex")
 
 os.makedirs(os.path.dirname(output_fasta), exist_ok=True)
 os.makedirs(os.path.dirname(partition_txt), exist_ok=True)
