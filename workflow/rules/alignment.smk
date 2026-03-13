@@ -72,5 +72,5 @@ rule concat_alignments:
         os.path.join(dir_env, "seqkit.yaml")  # make sure Biopython is installed
     shell:
         """
-        {params.script} {params.indir} {output}
+        ./{params.script} {params.indir} {output}
         """
