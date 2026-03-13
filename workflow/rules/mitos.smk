@@ -65,10 +65,16 @@ rule separate_faa:
     shell:
         """
         set -euo pipefail
+
+        # remove trailing "; "
+        seqkit replace -p '.*; ' -r '' {input.faa} -o {params.updatedfaa}
+
+        # prepend sample ID to headers
         seqkit fx2tab {params.updatedfaa} -n -i | \
         awk -v sample="{params.sample}" '{print ">"sample"_"$1"\n"$2}' | \
         seqkit tab2fx -o {params.updatedfaa}_prefixed.faa
 
+        #split faa 
         seqkit split -i {params.updatedfaa}_prefixed.faa
         touch {output}
         """
