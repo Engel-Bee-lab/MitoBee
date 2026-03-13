@@ -15,7 +15,7 @@ rule merge_proteins:
 
         for gene in atp6 atp8 cob cox1 cox2 cox3 nad1 nad2 nad3 nad4 nad4l nad5 nad6
         do
-            f={params.indir}/{params.sample}*_updated_result.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
+            f={params.indir}/{params.sample}_updated_result.faa.split/{params.sample}_updated_result.part_${{gene}}.faa
 
             if [-f "$f"]; then
                 cat "$f" >> {params.folder}${{gene}}.faa
@@ -23,6 +23,6 @@ rule merge_proteins:
                 echo "File $f does not exist."
             fi
         done
-        
+
         touch {output}
         """
