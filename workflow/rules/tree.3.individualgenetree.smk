@@ -1,39 +1,61 @@
-rule build_alignment_fasta:
-    input:
-        fasta=expand(os.path.join(input_dir, "{sample}.{extn}"), sample=sample_names, extn=extn)
-    output:
-        final_fasta = os.path.join(dir_hostcleaned, "mitogenome", "final_mitogenome.aln")
-    params:
-        folder=os.path.join(input_dir),
-        concat=os.path.join(dir_hostcleaned, "mitogenome", "all_samples.fasta"),
-        concat_clean=os.path.join(dir_hostcleaned, "mitogenome", "all_samples_clean.fasta"),
-        host= config['args']['host_seq']
-    conda:
-        os.path.join(dir_env, "mafft.yaml")
-    shell:
-        """
-        set -euo pipefail
-        if [ -f {output.final_fasta} ]; then
-            echo "Final alignment fasta already exists. Skipping..."
-            exit 0
-        else
-            cat {params.folder}/*.fasta > {params.concat}
-            cat {params.host} >> {params.concat}
-            awk '/^>/{{print $1; next}} {{print}}' {params.concat} > {params.concat_clean}
-            mafft --auto {params.concat_clean} > {output.final_fasta}
-        fi
-        """
+"""
+Buidling from tree.2.aligment.smk, building gene trees 
+Only of the genes present in all the genomes 
+"""
 
-rule phylo_tree:
+"""Build a tree with the provided concatenated alignment and partition files using IQ-TREE
+User provided which genes, otherwise defaults to cox1, and cob 
+To change this, edit the config.yaml file and add the genes to be used for tree building under tree:genes
+"""
+rule build_tree:
+    """
+    Build trees for individual genes using IQ-TREE.
+    Skips genes that were not aligned (e.g., missing in some genomes).
+    """
     input:
-        final_fasta = os.path.join(dir_hostcleaned, "mitogenome", "final_mitogenome.aln")
+        folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
+        gene_list=config["tree"]["genes"],
     output:
-        tree = os.path.join(dir_reports, "mitogenome_phylo_tree.nwk")
+        tree_dir=os.path.join(dir_reports, "gene_trees")
     conda:
         os.path.join(dir_env, "mafft.yaml")
-    shell:
-        """
-            iqtree -s {input.final_fasta} -m GTR+G -bb 3000 -nt AUTO -pre tmp_prefix
-            mv tmp_prefix.treefile {output.tree}
-            rm tmp_prefix.*
-        """
+    params:
+        iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp")
+    resources:
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        runtime=config['resources']['smalljob']['runtime']
+    threads:
+        config['resources']['smalljob']['threads']
+    run:
+        import os
+
+        # make output directories
+        os.makedirs(output.tree_dir, exist_ok=True)
+        os.makedirs(params.iqtree_dir, exist_ok=True)
+
+        # iterate over each gene
+        for gene in input.gene_list:
+            aln_file = os.path.join(dir_mitos, "mafft", f"{gene}_aligned.faa")
+            
+            # check if alignment exists
+            if not os.path.exists(aln_file):
+                print(f"[WARN] Alignment file for gene '{gene}' not found. Skipping tree for this gene.")
+                continue
+            
+            print(f"[INFO] Building tree for gene: {gene}")
+
+            tmp_prefix = os.path.join(params.iqtree_dir, f"{gene}_tmp")
+
+            # run IQ-TREE
+            shell(
+                f"iqtree -s {aln_file} -m MFP -bb 1000 -nt {threads} -pre {tmp_prefix}"
+            )
+
+            # move outputs to final directory
+            tree_out = os.path.join(output.tree_dir, f"{gene}.treefile")
+            log_out = os.path.join(output.tree_dir, f"{gene}.log")
+            shell(
+                f"mv {tmp_prefix}.treefile {tree_out}; "
+                f"mv {tmp_prefix}.log {log_out}; "
+                f"mv {tmp_prefix}.iqtree {params.iqtree_dir}/."
+            )

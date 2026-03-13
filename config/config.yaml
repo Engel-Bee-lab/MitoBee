@@ -24,3 +24,6 @@ args:
   sequencing: 
   configfile: 
   temp_dir:
+
+trees:
+  genes: ["cox1", "cob"]
