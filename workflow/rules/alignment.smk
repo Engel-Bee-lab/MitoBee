@@ -39,7 +39,7 @@ rule mafft:
     input:
         expand(os.path.join(dir_out, "temp", "{sample}_merged.txt"), sample=sample_names)
     output:
-        folder=os.path.join(dir_out, "temp", "aligned_done.txt")
+        folder=os.path.join(dir_mitos, "temp", "aligned_done.txt")
     conda:
         os.path.join(dir_env, "mafft.yaml")
     params:
