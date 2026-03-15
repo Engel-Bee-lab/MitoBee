@@ -9,6 +9,8 @@
 ## Snakemake workflow to get mitogenomes from metagenomic data
 Still under development! Stable release out as a version, but only if there is a closely related mitogenome available.
 
+Documentation: [Wiki](https://github.com/npbhavya/Mitobee/wiki/Home)
+
 ### Install 
 
 **Source install**
@@ -74,31 +76,6 @@ This module will provide an overview of which reference to use
 
 ```
 
-**HPC version:** 
-To run mitobee on HPC
-
-Job script (SLURM format) provided in `mitobee.sh` file in repository. Update the account, job specs for your cluster.
-
-- Also note the `--profile slurm` in the command requires a file `~/.config/snakemake/slurm/config.yaml` in your HPC $HOME. \
-  If this file doesn't exist, create the file and add
-
-```
-    executor: slurm
-    jobs: 100 #update this accordingly if the number of jobs per user is smaller on your cluster
-
-    default-resources:
-      slurm_account: <slurm account> #ignore if this not required in your cluster
-      slurm_partition: cpu
-      mem_mb: 100000
-      runtime: 100
-
-    latency-wait: 120
-    restart-times: 2
-    rerun-incomplete: true
-    printshellcmds: true
-    use-conda: true
-    keep-going: true
-```
 ### Input files
 Input files:
 - Input directory with metagenomes
