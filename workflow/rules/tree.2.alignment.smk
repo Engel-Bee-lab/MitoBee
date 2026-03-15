@@ -116,5 +116,5 @@ rule build_tree:
             iqtree -s {input.fasta} -m MFP -bb 1000 -nt {threads} -pre tmp_prefix
             mv tmp_prefix.treefile {output.tree}
             mv tmp_prefix.log {output.log}
-            mv tmp_prefix.iqtree {params.iqtree_dir}/.
+            mv tmp_prefix.* {params.iqtree_dir}/.
         """
