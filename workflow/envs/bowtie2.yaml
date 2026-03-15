@@ -2,6 +2,6 @@ name: bowtie2
 channels:
     - bioconda
 dependencies:
-    - bowtie>=2.5.5
+    - bowtie2>=2.5.5
     - samtools>=1.22.1
     - bcftools>=1.23
