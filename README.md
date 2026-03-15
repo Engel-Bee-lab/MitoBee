@@ -3,8 +3,7 @@
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/npbhavya/MitoBee?branch=main)
 
-![Workflow Diagram](test-files/mitobeelogo.png)
-<img src="test-files/mitobeelogo.png" width="400" alt="MitoBee logo">
+<img src="test-files/mitobeelogo.png" width="200" alt="MitoBee logo">
 
 # MitoBee
 
