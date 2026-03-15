@@ -40,7 +40,7 @@ for sample in sample_names:
     targets['hostsearch'].append(expand(os.path.join(dir_hostsearch,"{sample}_primary_idxstats.txt"), sample=sample))
     targets['hostsearch'].append(expand(os.path.join(dir_hostsearch,"{sample}_primary_coverage.txt"), sample=sample))
     targets['hostsearch'].append(expand(os.path.join(dir_hostsearch,"{sample}_strict_idxstats.txt"), sample=sample))
-    targets['hostsearch'].append(expand(os.path.join(dir_report, "Reference_search", "{sample}_host_ranking.tsv"), sample=sample))
+    targets['hostsearch'].append(expand(os.path.join(dir_reports, "Reference_search", "{sample}_host_ranking.tsv"), sample=sample))
 
 @targetRule
 rule all:
