@@ -92,7 +92,7 @@ rule host_mapping_score:
         primary_cov = os.path.join(dir_hostsearch,"{sample}_primary_coverage.txt"),
         strict_idx = os.path.join(dir_hostsearch,"{sample}_strict_idxstats.txt")
     output:
-        summary = os.path.join(dir_report, "Reference_search", "{sample}_host_ranking.tsv")
+        summary = os.path.join(dir_reports, "Reference_search", "{sample}_host_ranking.tsv")
     localrule: True
     script:
         "../scripts/score_hosts.py"
