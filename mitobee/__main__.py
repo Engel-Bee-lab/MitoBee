@@ -144,7 +144,7 @@ mitobee tree --input output/REPORTS/mitogenome --extn fasta --host_seq test-file
     )
 
 @common_options
-def tree(_input, extn, host_seq, output, temp_dir, configfile, conda_frontend, **kwargs):
+def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -153,7 +153,6 @@ def tree(_input, extn, host_seq, output, temp_dir, configfile, conda_frontend, *
             "input": _input, 
             "output": output, 
             "extn": extn,
-            "host_seq": host_seq,
             "configfile": configfile,
             "temp_dir": temp_dir,
         }

@@ -22,7 +22,13 @@ Run the below commands:
 
 **Downloading the test-files** 
 
-The test files are large, so to download them, use `git-lfs`, Needed if you want to test the installation with the test files
+The test files are large, so to download them, use `git-lfs`, Needed if you want to test the installation with the test files. 
+
+To install `git-lfs`
+
+    mamba install main::git-lfs
+    git pull #in Mitobee directory
+
 
 **Once I have a stable version release, I will upload them to conda and pip as well**
 
@@ -48,7 +54,7 @@ Once the mitochondrial genomes are built from each metagenome sample, run this m
 ```
     #After the mitogenomes are made from the mitobee run results. Add other references to build a tree
     #Once again example with test files
-    mitobee tree --input test-files/mitogenomes --extn fasta --host_seq test-files/am-dh4.fasta --output output -k all
+    mitobee tree --input test-files/mitogenomes --extn fasta --output output -k all
 
 ```
 

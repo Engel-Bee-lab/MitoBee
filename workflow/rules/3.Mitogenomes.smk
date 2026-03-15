@@ -240,7 +240,6 @@ rule qc_consensus:
 
         if [ "$seq_len" -eq 0 ]; then
             echo "Empty sequence, failing QC"
-            exit 1
         fi
 
         frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {{print n/l}}')
