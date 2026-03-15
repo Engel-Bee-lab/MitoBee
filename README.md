@@ -60,10 +60,16 @@ This module will provide an overview of which reference to use
     #Download the reference genes you would like to use of the closely related genomes
 
     #to search against mitogenomes refernece set
-    mitobee search --input test-files/mitogenomes --extn fasta --ref_seq  test-files/ref --output output -k all --mode mitogenome
+    mitobee search --input test-files/mitogenomes --extn fastq.gz \
+        --pattern_r1 _R1 --pattern_r2 _R2 \
+        --ref_seq  test-files/ref-set-genome --output output \
+        -k all --mode mitogenome
 
     #to search against mitogenomes refernece gene set 
-    mitobee search --input test-files/mitogenomes --extn fasta --ref_seq  test-files/ref --output output -k all --mode genes 
+    mitobee search --input test-files/mitogenomes --extn fastq.gz \
+        --pattern_r1 _R1 --pattern_r2 _R2 \
+        --ref_seq  test-files/ref-set-genes --output output \
+        -k all --mode genes 
 
 ```
 
