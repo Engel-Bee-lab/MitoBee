@@ -21,9 +21,12 @@ args:
   host_seq: 
   ref_set:
   output: 
-  sequencing: 
   configfile: 
   temp_dir:
+
+run:
+  min_depth: 10 #minimum read depth for coverage
+  max_frac: 0.333 #maximum fraction of reads that can be mapped to a single reference sequence
 
 tree:
   genes: ["cox1", "cob"]

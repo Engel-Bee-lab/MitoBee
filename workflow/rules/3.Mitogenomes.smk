@@ -171,7 +171,7 @@ rule low_coverage_bed:
     conda:
         os.path.join(dir_env, "minimap2.yaml") 
     params:
-        min_depth = 10 #mask regions with less than 10x coverage
+        min_depth = config['run']['min_depth'] #mask regions with less than 10x coverage
     resources:
         mem_mb =config['resources']['smalljob']['mem_mb'],
         runtime = config['resources']['smalljob']['runtime']
@@ -228,13 +228,15 @@ rule qc_consensus:
     output:
         output_fasta = os.path.join(dir_out, "temp", "{sample}_done.txt"),
     params:
-        max_frac = 0.333,
-        filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta")
+        max_frac = config['run']['max_frac'], #mask sequences with more than 5% Ns
+        filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta"),
+        dirs=os.path.join(dir_reports, "mitogenome")
     params:
     shell:
         """
         set -euo pipefail
-
+        mkdir -p {params.dirs}
+        
         seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
         n_count=$(grep -v '^>' {input.fasta} | tr -d '\\n' | tr 'a-z' 'A-Z' | grep -o 'N' | wc -l)
 
