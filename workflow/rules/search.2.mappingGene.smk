@@ -42,7 +42,7 @@ rule host_mapping_search_gene:
         """
         set -euo pipefail
         bowtie2 --very-sensitive-local -L 15 -N 1 -p {threads} \
-            -x {params.bam} -1 {input.r1} -2 {input.r2} -S {output.all_bam} | \
+            -x {params.bam} -1 {input.r1} -2 {input.r2} | \
             samtools sort -@ {threads} -o {output.all_bam} -
 
         samtools index {output.all_bam}
