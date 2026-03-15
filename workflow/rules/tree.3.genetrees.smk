@@ -8,7 +8,7 @@ gene_list = config["tree"]["genes"]
 rule build_gene_tree:
     input:
         folder=os.path.join(dir_out, "temp", "aligned_done.txt"),
-        faa=os.path.join(dir_mitos, "mafft", "{gene}.faa")
+        fasta=os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
     output:
         tree_file=os.path.join(dir_reports, "gene_trees", "{gene}.treefile"),
         log_file=os.path.join(dir_reports, "gene_trees", "{gene}.log")

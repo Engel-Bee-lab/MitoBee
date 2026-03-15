@@ -20,6 +20,6 @@
 #Also add other reference mitogenomes to  output/REPORTS/mitogenomes. No need to add the reference sequence, it will be included
 #Then run the subcommand to build tree 
 
-mitobee tree --input test-files/mitogenomes --extn fasta --host_seq test-files/am-dh4.fasta --output output -k all --profile slurm --conda-frontend mamba --cores 16
+mitobee tree --input test-files/mitogenomes --extn fasta --output output -k all --profile slurm --conda-frontend mamba --cores 16
 
 #mitobee search --input test-files/metagenomes/ --extn fastq.gz --pattern_r1 _R1 --pattern_r2 _R2 --ref_set test-files/ref-set-genome/ --output output --mode mitogenome -k --profile slurm --conda-frontend mamba
