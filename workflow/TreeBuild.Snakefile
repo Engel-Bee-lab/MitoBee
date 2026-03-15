@@ -71,7 +71,7 @@ rule all:
         os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
         os.path.join(dir_mitos, "mafft", "Partitions.txt"),
         os.path.join(dir_mitos, "mafft", "Partitions.nex"),
-        os.path.join(dir_reports, "mitogenome_phylo_tree.nwk"),
-        os.path.join(dir_reports, "mitogenome_phylo_tree.log"),
+        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.nwk"),
+        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.log"),
         # output files for all genes
         expand(os.path.join(dir_reports, "gene_trees", "{gene}.treefile"), gene=gene_list)
