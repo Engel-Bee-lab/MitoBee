@@ -1,13 +1,11 @@
-rule host_mapping_search_gene:
+rule host_genes_index:
     input:
-        r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
-        r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
         host=config['args']['ref_set']
     output:
-        all_bam=os.path.join(dir_hostsearch,"{sample}_temp_gene.bam"),
+        index=os.path.join(dir_hostsearch, "gene_index.1.bt2")
     params:
         host_group= os.path.join(dir_hostsearch, "ref_genes.fasta"),
-        dirs=os.path.join(dir_hostsearch),
+        dirs=os.path.join(dir_hostsearch)
     conda:
         os.path.join(dir_env, "bowtie2.yaml")
     resources:
@@ -20,15 +18,31 @@ rule host_mapping_search_gene:
         set -euo pipefail
         rm -rf {params.host_group}
         cat {input.host}/*.fa* >> {params.host_group}
-        
-        #moving to bowtie2 since its developed for shorter references too 
-        #if I use minimap2 then I need to decrease the kmer and -w params, based on the gene length
-        #bowtie2, I dont need to change this
-        
-        #index reference genes 
         bowtie2-build {params.host_group} {params.dirs}/gene_index
+        """
+
+rule host_mapping_search_gene:
+    input:
+        r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
+        r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
+        index=os.path.join(dir_hostsearch, "gene_index.1.bt2")
+    output:
+        all_bam=os.path.join(dir_hostsearch,"{sample}_temp_gene.bam"),
+    params:
+        bam=os.path.join(dir_hostsearch, "gene_index"),
+        dirs=os.path.join(dir_hostsearch),
+    conda:
+        os.path.join(dir_env, "bowtie2.yaml")
+    resources:
+        mem_mb =config['resources']['smalljob']['mem_mb'],
+        runtime = config['resources']['smalljob']['runtime']
+    threads: 
+        config['resources']['smalljob']['threads']
+    shell:
+        """
+        set -euo pipefail
         bowtie2 --very-sensitive-local -L 15 -N 1 -p {threads} \
-            -x {params.dirs}/gene_index -1 {input.r1} -2 {input.r2} -S {output.all_bam} | \
+            -x {params.bam} -1 {input.r1} -2 {input.r2} -S {output.all_bam} | \
             samtools sort -@ {threads} -o {output.all_bam} -
 
         samtools index {output.all_bam}
