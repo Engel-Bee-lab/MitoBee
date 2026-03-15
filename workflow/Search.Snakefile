@@ -18,7 +18,7 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 """Rules"""
 include: os.path.join("rules", "0.preflight.smk")
 include: os.path.join("rules", "1.qc.smk")
-include: os.path.join("rules", "2.mapping-search.smk")
+include: os.path.join("rules", "search.2.mapping-search.smk")
 
 """Mark target rules"""
 target_rules = []
