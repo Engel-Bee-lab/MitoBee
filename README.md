@@ -3,7 +3,6 @@
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/npbhavya/MitoBee?branch=main)
 
-
 # MitoBee
 
 ## Snakemake workflow to get mitogenomes from metagenomic data
@@ -21,16 +20,6 @@ Run the below commands:
     mamba create -y -n mitobee python=3.13
     conda activate mitobee
     pip install -e . 
-
-**Downloading the test-files** 
-
-The test files are large, so to download them, use `git-lfs`, Needed if you want to test the installation with the test files. 
-
-To install `git-lfs`
-
-    mamba install main::git-lfs
-    git pull #in Mitobee directory
-
 
 **Once I have a stable version release, I will upload them to conda and pip as well**
 
