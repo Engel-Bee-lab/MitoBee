@@ -58,8 +58,16 @@ elif config['args']['mode'] == "gene":
         targets['qc'].append(expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample))
         targets['qc'].append(os.path.join(dir_reports, "final_host_qc_summary.txt"))
 
-        
-
+        targets['host'].append(os.path.join(dir_hostcleaned, "gene_index.1.bt2"))
+        targets['host'].append(expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_mapped.bam"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_mitogenome_snps_depth.txt"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_mitogenome_snps.filtered.vcf.gz"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_low_cov.bed"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_consensus.fasta"), sample=sample)),
+        targets['host'].append(expand(os.path.join(dir_out, "temp", "{sample}_done.txt"), sample=sample))
+        targets['host'].append(expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_consensus.summary.tsv"), sample=sample))
+        targets['host'].append(os.path.join(dir_reports, "mitogene_consensus_summary.tsv"))
 
 @targetRule
 rule all:

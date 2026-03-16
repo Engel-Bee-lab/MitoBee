@@ -14,7 +14,7 @@ rule mitogenome_summary:
         summary=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.summary.tsv")
     params:
         sample="{sample}",
-        max_frac=0.333
+        max_frac=config['run']['max_frac']
     localrule: True
     shell:
         r"""
