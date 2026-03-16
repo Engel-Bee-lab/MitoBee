@@ -49,3 +49,5 @@ include = ["mitobee*"]
 [tool.setuptools_scm]
 write_to = "mitobee/_version.py"
 fallback_version = "0.1.0"
+version_scheme = "post-release"
+local_scheme = "no-local-version"
