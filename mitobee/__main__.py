@@ -94,7 +94,7 @@ def cli():
 help_msg_run = """
 \b
 RUN EXAMPLES 
-mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --patern_r2 R2 --extn fq --host_seq <path to host mitochondrial genome> --sequencing paired --output <output directory> -k
+mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --patern_r2 R2 --extn fq --host_seq <path to host mitochondrial genome> --output <output directory> -k
 """
 @click.command(epilog=help_msg_run, 
     context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True)
