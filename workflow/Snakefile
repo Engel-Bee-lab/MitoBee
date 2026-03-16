@@ -12,7 +12,7 @@ include: os.path.join("rules", "Run.2.mapping.smk")
 include: os.path.join("rules", "QC-reports.smk")
 include: os.path.join("rules", "Run.3.Mitogenomes.smk")
 include: os.path.join("rules", "Run.Mitogenome-reports.smk")
-
+include: os.path.join("rules", "Run.GeneMapping.smk")
 
 """Mark target rules"""
 target_rules = []
