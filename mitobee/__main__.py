@@ -101,7 +101,7 @@ mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --pa
     )
 
 @common_options
-def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_frontend, **kwargs):
+def run(_input, extn, r1, r2, host_seq, output, temp_dir, mode, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -118,6 +118,7 @@ def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_fron
             "host_seq": host_seq,
             "configfile": configfile,
             "temp_dir": temp_dir,
+            "mode": mode,
         }
     }
 
@@ -144,7 +145,7 @@ mitobee tree --input output/REPORTS/mitogenome --extn fasta --host_seq test-file
     )
 
 @common_options
-def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
+def tree(_input, extn, output, temp_dir, mode, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -155,6 +156,7 @@ def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
             "extn": extn,
             "configfile": configfile,
             "temp_dir": temp_dir,
+            "mode": mode,
         }
     }
 
