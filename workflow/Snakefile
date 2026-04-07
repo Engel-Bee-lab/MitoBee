@@ -65,7 +65,6 @@ elif config['args']['mode'] == "gene":
     targets['qc'] = expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample_names)
     targets['qc'] = os.path.join(dir_reports, "final_host_qc_summary.txt")
-
     targets['host'] = os.path.join(dir_hostcleaned, "gene_index.1.bt2")
     targets['host'] = expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample_names)
     targets['host'] = expand(os.path.join(dir_hostcleaned, "mitogenes", "{sample}_mapped.bam"), sample=sample_names),

@@ -14,7 +14,7 @@
 #mitobee run --input test-files/metagenomes --extn fastq.gz \
 #    --pattern_r1 _R1 --pattern_r2 _R2 --cores 16 \
 #     --host_seq test-files/am-dh4.fasta --profile slurm \
-#     --conda-frontend mamba --output output 
+#     --conda-frontend mamba --output output --mode mitogenome
 
 #build tree with host seq, assembled mitogenomes. 
 #Also add other reference mitogenomes to  output/REPORTS/mitogenomes. No need to add the reference sequence, it will be included
