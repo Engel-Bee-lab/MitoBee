@@ -25,7 +25,7 @@ rule host_genes_index:
         bowtie2-build {params.host_group} {params.dirs}/gene_index
         """
 
-rule host_mapping:
+rule host_gene_mapping:
     input:
         r1 = os.path.join(dir_fastp,"{sample}_R1.fastq.gz"),
         r2 = os.path.join(dir_fastp,"{sample}_R2.fastq.gz"),
