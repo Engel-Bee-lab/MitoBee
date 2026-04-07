@@ -28,7 +28,7 @@ targets ={'qc':[], 'host':[]}
 sample_names = list(config["sample_names"].keys())
 #print (sample_names)
 
-rint("\n--- DEBUG ---")
+print("\n--- DEBUG ---")
 print("Expected fastp output:")
 print(os.path.join(dir_fastp, f"{sample_names[0]}_R1.fastq.gz"))
 
