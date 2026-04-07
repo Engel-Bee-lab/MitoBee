@@ -8,11 +8,6 @@ sample_names = [s for s in config["sample_names"].keys() if s != "*"]
 wildcard_constraints:
     sample="|".join(sample_names)
 
-for sample, reads in config["sample_names"].items():
-    print(f"{sample}")
-    print(f"  R1: {reads['r1']}")
-    print(f"  R2: {reads['r2']}")
-
 #quality control rules here
 rule fastp:
     input:
