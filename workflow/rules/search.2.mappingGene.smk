@@ -41,6 +41,8 @@ rule host_mapping_search_gene:
     shell:
         """
         set -euo pipefail
+        #--very-sensitive-local: allows partial matches, reads align to multiple references
+        #
         bowtie2 --very-sensitive-local -L 15 -N 1 -p {threads} \
             -x {params.bam} -1 {input.r1} -2 {input.r2} | \
             samtools sort -@ {threads} -o {output.all_bam} -
