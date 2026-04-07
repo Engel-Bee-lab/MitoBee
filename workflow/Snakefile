@@ -29,10 +29,10 @@ sample_names = list(config["sample_names"].keys())
 #print (sample_names)
 
 if config['args']['mode'] == "mitogenome":
-    targets['qc'] = expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample_names)
-    targets['qc'] = expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_fastp,"{sample}_R1.fastq.gz"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_fastp,"{sample}_R2.fastq.gz"), sample=sample_names)
+    targets['qc'] = expand(os.path.join(dir_fastp,"{sample}.stats.json"), sample=sample_names)
+    targets['qc'] = expand(os.path.join(dir_fastp,"{sample}.stats.html"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_hostcleaned,"{sample}_temp.bam"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_hostcleaned,"{sample}_bamstats.txt"), sample=sample_names)
     targets['qc'] = expand(os.path.join(dir_hostcleaned,"{sample}_R1.mapped.fastq.gz"),sample=sample_names)
