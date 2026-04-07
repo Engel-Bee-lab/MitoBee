@@ -72,7 +72,7 @@ samples = sorted(samples_r1 & samples_r2)
 # -------------------------
 # Step 3: Output
 # -------------------------
-print(f"Detected paired-end samples: {samples}")
+#print(f"Detected paired-end samples: {samples}")
 sample_inputs = {}
 
 for sample in samples:
@@ -81,7 +81,7 @@ for sample in samples:
     sample_inputs[sample] = {"r1": r1_path, "r2": r2_path}
 
 config["sample_names"] = sample_inputs
-print(f"Sample inputs: {sample_inputs}")
+#print(f"Sample inputs: {sample_inputs}")
 
 #making directories for each step
 sample_inputs = config["sample_names"]
