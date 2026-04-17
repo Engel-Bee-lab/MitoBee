@@ -3,8 +3,6 @@
 [![](https://img.shields.io/static/v1?label=CLI&message=Snaketool&color=blueviolet)](https://github.com/beardymcjohnface/Snaketool)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/npbhavya/MitoBee?branch=main)
 
-<img src="mitobee/mitobeelogo.png" width="220" alt="MitoBee logo">
-
 # MitoBee
 
 ## Snakemake workflow to get mitogenomes from metagenomic data
