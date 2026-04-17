@@ -25,10 +25,10 @@ strict = pd.read_csv(
     strict_idx,
     sep="\t",
     header=None,
-    names=["reference", "length2", "unique_reads", "unmapped2"]
+    names=["reference", "length2", "strict", "unmapped2"]
 )
 
-strict = strict[["reference", "unique_reads"]]
+strict = strict[["reference", "strict"]]
 
 # -----------------------------
 # Load coverage
@@ -58,7 +58,7 @@ df["unique_per_kb"] = df["unique_reads"] / (df["length"] / 1000)
 # Scoring formula
 # -----------------------------
 df["score_base"] = (2 * df["unique_per_kb"]) + df["primary_per_kb"]
-df["score"] = df["score_base"] * df["breadth"]
+df["score"] = df["score_base"] * (2* df["breadth"])
 
 # -----------------------------
 # Rank references

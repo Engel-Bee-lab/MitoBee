@@ -94,14 +94,14 @@ def cli():
 help_msg_run = """
 \b
 RUN EXAMPLES 
-mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --patern_r2 R2 --extn fq --host_seq <path to host mitochondrial genome> --sequencing paired --output <output directory> -k
+mitobee run --input <input directory with metagenome reads> --pattern_r1 R1 --patern_r2 R2 --extn fq --host_seq <path to host mitochondrial genome> --output <output directory> --mode mitgenome -k
 """
 @click.command(epilog=help_msg_run, 
     context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True)
     )
 
 @common_options
-def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_frontend, **kwargs):
+def run(_input, extn, r1, r2, host_seq, output, temp_dir, mode, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -118,6 +118,7 @@ def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_fron
             "host_seq": host_seq,
             "configfile": configfile,
             "temp_dir": temp_dir,
+            "mode": mode,
         }
     }
 
@@ -137,14 +138,14 @@ def run(_input, extn, r1, r2, host_seq, output, temp_dir, configfile, conda_fron
 help_msg_run = """
 \b
 TREE EXAMPLES 
-mitobee tree --input output/REPORTS/mitogenome --extn fasta --host_seq test-files/am-dh4.fasta --output output -k
+mitobee tree --input output/REPORTS/mitogenome --extn fasta --host_seq test-files/am-dh4.fasta --output output --mode mitgenome -k
 """
 @click.command(epilog=help_msg_run, 
     context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True)
     )
 
 @common_options
-def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
+def tree(_input, extn, output, temp_dir, mode, configfile, conda_frontend, **kwargs):
     """Run mitobee workflow"""
     copy_config(configfile, system_config=snake_base(os.path.join('config', 'config.yaml')))
 
@@ -155,6 +156,7 @@ def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
             "extn": extn,
             "configfile": configfile,
             "temp_dir": temp_dir,
+            "mode": mode,
         }
     }
 
@@ -175,7 +177,7 @@ def tree(_input, extn, output, temp_dir, configfile, conda_frontend, **kwargs):
 help_msg_run = """
 \b
 SEARCH EXAMPLES 
-mitobee search --input <input directory with metagenome reads> --extn fastq.gz --pattern_r1 R1 --patern_r2 R2 --ref_set test-files/ref-db --output output -k
+mitobee search --input <input directory with metagenome reads> --extn fastq.gz --pattern_r1 R1 --patern_r2 R2 --ref_set test-files/ref-db --output output -mode mitogenome -k
 """
 @click.command(epilog=help_msg_run, 
     context_settings=dict(help_option_names=["-h", "--help"], ignore_unknown_options=True)

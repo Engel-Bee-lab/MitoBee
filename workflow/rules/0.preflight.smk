@@ -72,7 +72,7 @@ samples = sorted(samples_r1 & samples_r2)
 # -------------------------
 # Step 3: Output
 # -------------------------
-print(f"Detected paired-end samples: {samples}")
+#print(f"Detected paired-end samples: {samples}")
 sample_inputs = {}
 
 for sample in samples:

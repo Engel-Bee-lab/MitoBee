@@ -38,7 +38,7 @@ If there is a representative closely related genome mitogenome, provide that as 
     mitobee run --input test-files/metagenomes --extn fastq.gz \
          --pattern_r1 _R1 --pattern_r2 _R2 \
          --host_seq test-files/am-dh4.fasta \
-         --output output
+         --output output --mode mitogenome
 ```
 
 2. `mitobee tree`
@@ -47,7 +47,7 @@ Once the mitochondrial genomes are built from each metagenome sample, run this m
 ```
     #After the mitogenomes are made from the mitobee run results. Add other references to build a tree
     #Once again example with test files
-    mitobee tree --input test-files/mitogenomes --extn fasta --output output -k all
+    mitobee tree --input test-files/mitogenomes --extn fasta --output output -k all --mode mitogenome
 
 ```
 

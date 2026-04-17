@@ -59,19 +59,25 @@ Rules
 include: os.path.join("rules", "tree.1.mitos.smk")
 include: os.path.join("rules", "tree.2.alignment.smk")
 include: os.path.join("rules", "tree.3.genetrees.smk")
+include: os.path.join("rules", "tree.1.geneDNATrees.smk")
 
 """Mark target rules"""
 rule all:
     input:
-        os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt"),
-        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names, extn=extn),
-        expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
-        os.path.join(dir_out, "temp", "genes_merged.txt"),
-        os.path.join(dir_out, "temp", "aligned_done.txt"),
-        os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
-        os.path.join(dir_mitos, "mafft", "Partitions.txt"),
-        os.path.join(dir_mitos, "mafft", "Partitions.nex"),
-        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.nwk"),
-        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.log"),
-        # output files for all genes
-        expand(os.path.join(dir_reports, "gene_trees", "{gene}.treefile"), gene=gene_list)
+        if config['args']['mode'] == "mitogenome":
+            os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt"),
+            expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names, extn=extn),
+            expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
+            os.path.join(dir_out, "temp", "genes_merged.txt"),
+            os.path.join(dir_out, "temp", "aligned_done.txt"),
+            os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
+            os.path.join(dir_mitos, "mafft", "Partitions.txt"),
+            os.path.join(dir_mitos, "mafft", "Partitions.nex"),
+            os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.nwk"),
+            os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.log"),
+            # output files for all genes
+            expand(os.path.join(dir_reports, "gene_trees", "{gene}.treefile"), gene=gene_list)
+        elif config['args']['mode'] == "gene":
+            os.path.join(dir_hostcleaned, "mitogenes", "final_mitogenome.aln"),
+            os.path.join(dir_reports, "gene_trees", "mitogenome_phylo_tree.treefile")
+

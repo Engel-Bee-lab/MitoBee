@@ -1,10 +1,13 @@
 """
 Rules for quality control and quality assurance - Illumina paired end reads 
 """
+
 sample_names = [s for s in config["sample_names"].keys() if s != "*"]
+
+# Constrain wildcards to actual sample names
 wildcard_constraints:
     sample="|".join(sample_names)
-print(sample_names)
+
 #quality control rules here
 rule fastp:
     input:

@@ -42,6 +42,8 @@ rule host_mito_snps:
     params:
         prefix = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome"),
         stats=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.stats.txt"),
+        min_depth = config['run']['min_depth'],
+        qual= config['run']['qual_threshold']
     conda:
         os.path.join(dir_env, "bcftools.yaml")
     resources:
@@ -63,7 +65,7 @@ rule host_mito_snps:
             bcftools index {output.vcf}
 
             #filter the SNPs, QUAL>30 means 0.1% error rate, DP>10 means at least 10 reads support
-            bcftools filter -i 'QUAL>30 && DP>10' {output.vcf} -Oz -o {output.filterred_vcf}
+            bcftools filter -i 'QUAL>{params.qual} && DP>{params.min_depth}' {output.vcf} -Oz -o {output.filterred_vcf}
             bcftools index {output.filterred_vcf}
 
             #getting the stats
