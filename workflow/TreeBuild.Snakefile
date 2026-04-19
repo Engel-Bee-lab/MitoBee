@@ -61,6 +61,7 @@ include: os.path.join("rules", "tree.2.alignment.smk")
 include: os.path.join("rules", "tree.3.genetrees.smk")
 include: os.path.join("rules", "tree.1.geneDNATrees.smk")
 
+rule_all_input = []
 """Mark target rules"""
 if config['args']['mode'] == "mitogenome":
     rule_all_input = [
