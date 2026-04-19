@@ -31,7 +31,7 @@ rule run_mitos:
         outdir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         genetic_code=2,
         database=os.path.join(dir_out, "database", "mitos_db"),
-        specific=config.get('tree', {}).get('specific_db', 'refseq89m'),
+        specific=config['tree']['specific_db']
         sample="{sample}"
     conda:
         os.path.join(dir_env, "mitos.yaml")
