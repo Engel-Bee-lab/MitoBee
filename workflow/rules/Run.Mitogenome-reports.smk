@@ -72,21 +72,27 @@ rule extract_pass_samples:
 
 rule copy_mitogenomes:
     input:
-        fasta=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"),
         pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
     output:
         copied=os.path.join(dir_reports, "mitogenomes", "done.txt")
     params:
-        copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
+        outdir=os.path.join(dir_reports, "mitogenomes"),
+        input_dir=os.path.join(dir_hostcleaned, "mitogenome")
     localrule: True
-    params:
-        sample="{sample}"
     shell:
-        """
-        if grep -q "{params.sample}" {input.pass_list}; then
-            cp {input.fasta} {params.copied}
-        else
-            echo "Sample {params.sample} did not pass QC, skipping copy."
-        fi
+        r"""
+        mkdir -p {params.outdir}
+
+        while read sample; do
+            src="{params.input_dir}/${{sample}}_consensus.fasta"
+            dst="{params.outdir}/${{sample}}_consensus.fasta"
+
+            if [ -f "$src" ]; then
+                cp "$src" "$dst"
+            else
+                echo "Missing file for $sample"
+            fi
+        done < {input.pass_list}
+
         touch {output.copied}
         """
