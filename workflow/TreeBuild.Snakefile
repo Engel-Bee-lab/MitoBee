@@ -17,7 +17,7 @@ input_dir = config['args']['input']
 EXTN = config["args"]["extn"]
 
 # Pattern: all files with this extension
-pattern = os.path.join(input_dir, f"*.{extn}")
+pattern = os.path.join(input_dir, f"*.{EXTN}")
 file_paths = sorted(glob.glob(pattern))
 # Extract sample names (strip extension only)
 sample_names = [re.sub(rf"\.{re.escape(extn)}$", '', os.path.basename(fp)) for fp in file_paths]
