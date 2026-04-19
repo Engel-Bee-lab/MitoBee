@@ -76,14 +76,17 @@ rule copy_mitogenomes:
         pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
     output:
         copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
+    params:
+        copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
     localrule: True
     params:
         sample="{sample}"
     shell:
         """
         if grep -q "{params.sample}" {input.pass_list}; then
-            cp {input.fasta} {output.copied}
+            cp {input.fasta} {params.copied}
         else
             echo "Sample {params.sample} did not pass QC, skipping copy."
         fi
+        touch {params.copied}
         """
