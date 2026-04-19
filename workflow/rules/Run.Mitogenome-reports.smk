@@ -65,7 +65,7 @@ rule extract_pass_samples:
     localrule: True
     shell:
         """
-        awk -F'\t' 'NR>1 && $7=="PASS" {print $1}' {input} \
+        awk -F'\t' 'NR>1 && $7=="PASS" {{print $1}}' {input} \
         | sed 's/_consensus.fasta//' \
         | sort -u \
         > {output.pass_list}
