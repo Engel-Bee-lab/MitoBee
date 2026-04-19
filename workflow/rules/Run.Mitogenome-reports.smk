@@ -88,5 +88,5 @@ rule copy_mitogenomes:
         else
             echo "Sample {params.sample} did not pass QC, skipping copy."
         fi
-        touch {params.copied}
+        touch {output.copied}
         """
