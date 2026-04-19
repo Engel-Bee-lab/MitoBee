@@ -85,7 +85,7 @@ elif config['args']['mode'] == "gene":
         os.path.join(dir_reports, "gene_trees", "mitogenome_phylo_tree.treefile")
     ]
 
-@targetRule
+
 rule all:
     input: 
         rule_all_input
