@@ -14,7 +14,7 @@ configfile: os.path.join(workflow.basedir, "..", "config", "config.yaml")
 Input files and directories
 """
 input_dir = config['args']['input']
-extn=config['args']['extn']
+EXTN = config["args"]["extn"]
 
 # Pattern: all files with this extension
 pattern = os.path.join(input_dir, f"*.{extn}")

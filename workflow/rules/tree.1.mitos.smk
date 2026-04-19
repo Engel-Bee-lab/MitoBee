@@ -1,3 +1,5 @@
+EXTN = config["args"]["extn"]
+
 rule install_database:
     output:
         os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt")
@@ -29,7 +31,7 @@ rule install_database:
 
 rule run_mitos:
     input:
-        fasta=os.path.join(input_dir, "{sample}.{extn}"),
+        fasta=os.path.join(input_dir, "{sample}." + EXTN),
         db=os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
     output:
         os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa")
