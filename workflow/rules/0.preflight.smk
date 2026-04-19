@@ -79,10 +79,11 @@ for sample in samples:
     r1_path = os.path.join(input_dir, f"{sample}{pattern_r1}.{extn}")
     r2_path = os.path.join(input_dir, f"{sample}{pattern_r2}.{extn}")
     sample_inputs[sample] = {"r1": r1_path, "r2": r2_path}
+    length_r1 = len(glob.glob(r1_path))
 
 config["sample_names"] = sample_inputs
 print(f"Sample inputs: {sample_inputs}")
-print(f"Number of sample inputs: len{sample_inputs}")
+print(f"Number of sample inputs: {length_r1}")
 
 #making directories for each step
 sample_inputs = config["sample_names"]
