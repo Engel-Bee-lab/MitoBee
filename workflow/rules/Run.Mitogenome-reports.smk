@@ -64,9 +64,10 @@ rule extract_pass_samples:
         pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
     localrule: True
     shell:
-        r"""
-        awk -F'\t' 'NR>1 && $7=="PASS" {{print $1}}' {input} \
+        """
+        awk -F'\t' 'NR>1 && $7=="PASS" {print $1}' {input} \
         | sed 's/_consensus.fasta//' \
+        | sort -u \
         > {output.pass_list}
         """
 
