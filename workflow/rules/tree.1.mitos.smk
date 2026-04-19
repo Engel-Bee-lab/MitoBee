@@ -31,8 +31,6 @@ rule run_mitos:
     input:
         fasta=os.path.join(input_dir, "{sample}.{extn}"),
         db=os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
-        host=config.get('args', {}).get('host_seq')
-
     output:
         os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa")
 
@@ -41,8 +39,8 @@ rule run_mitos:
         genetic_code=2,
         database=os.path.join(dir_out, "database", "mitos_db"),
         specific=config.get('tree', {}).get('specific_db', 'refseq89m'),
-        sample="{sample}"
-
+        sample="{sample}",
+        host=config.get('args', {}).get('host_seq')
     conda:
         os.path.join(dir_env, "mitos.yaml")
 
