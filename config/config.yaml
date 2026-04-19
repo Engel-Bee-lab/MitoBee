@@ -31,4 +31,4 @@ run:
 
 tree:
   specific_db: "refseq89m" #look up mitosdb documentation to know which one to pick. https://zenodo.org/records/4284483
-  genes: ["cox1", "cob"]
+  genes: ["cox1"]
