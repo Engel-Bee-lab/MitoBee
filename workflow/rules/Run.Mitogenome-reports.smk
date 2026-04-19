@@ -75,7 +75,7 @@ rule copy_mitogenomes:
         fasta=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"),
         pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
     output:
-        copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
+        copied=os.path.join(dir_reports, "mitogenomes", "done.txt")
     params:
         copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
     localrule: True
