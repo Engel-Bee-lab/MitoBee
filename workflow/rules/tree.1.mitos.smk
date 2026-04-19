@@ -22,7 +22,7 @@ rule install_database:
 
 rule run_mitos:
     input:
-        fasta= lambda wc: os.path.join(input_dir, f"{wc.sample}.{extn}"),
+        fasta= os.path.join(input_dir, "{sample}.{extn}"),
         db=os.path.join(dir_out, "database", "mitos_db", "mitos_downlaoded.txt"),
         host= config['args']['host_seq'],
     output:
