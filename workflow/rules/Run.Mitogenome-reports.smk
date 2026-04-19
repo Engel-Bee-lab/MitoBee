@@ -56,3 +56,34 @@ rule mitogenome_reports_aggregate:
         echo -e "filename\theader\tlength\tGC_content\tN_count\tN_fraction\tQC_status" > {output.aggregate}
         cat {input.summaries} >> {output.aggregate}
         """
+    
+rule extract_pass_samples:
+    input:
+        os.path.join(dir_reports, "mitogenome_consensus_summary.tsv")
+    output:
+        pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
+    localrule: True
+    shell:
+        r"""
+        awk -F'\t' 'NR>1 && $7=="PASS" {{print $1}}' {input} \
+        | sed 's/_consensus.fasta//' \
+        > {output.pass_list}
+        """
+
+rule copy_mitogenomes:
+    input:
+        fasta=os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"),
+        pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
+    output:
+        copied=os.path.join(dir_reports, "mitogenomes", "{sample}_consensus.fasta")
+    localrule: True
+    params:
+        sample="{sample}"
+    shell:
+        """
+        if grep -q "{params.sample}" {input.pass_list}; then
+            cp {input.fasta} {output.copied}
+        else
+            echo "Sample {params.sample} did not pass QC, skipping copy."
+        fi
+        """
