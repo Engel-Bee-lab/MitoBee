@@ -115,7 +115,7 @@ num_samples = len(sample_inputs)
 
 config["sample_names"] = sample_inputs
 
-print(f"Sample inputs: {len(sample_inputs)} samples detected")
+print(f"Sample inputs: {sample_inputs} samples detected")
 print(f"Number of sample inputs: {num_samples}")
 
 #making directories for each step
