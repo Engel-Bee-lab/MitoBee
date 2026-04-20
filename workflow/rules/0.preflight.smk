@@ -72,16 +72,51 @@ samples = sorted(samples_r1 & samples_r2)
 # -------------------------
 # Step 3: Output
 # -------------------------
-#print(f"Detected paired-end samples: {samples}")
+import os
+import glob
+
 sample_inputs = {}
 
-for sample in samples:
-    r1_path = os.path.join(input_dir, f"{sample}{pattern_r1}.{extn}")
+# get all R1 files directly (source of truth)
+r1_files = glob.glob(os.path.join(input_dir, f"*{pattern_r1}.{extn}"))
+
+for r1_path in r1_files:
+
+    # isolate filename only (critical fix)
+    r1_file = os.path.basename(r1_path)
+
+    # extract sample name safely (ONLY remove suffix, no split)
+    suffix = f"{pattern_r1}.{extn}"
+
+    if not r1_file.endswith(suffix):
+        continue
+
+    sample = r1_file[:-len(suffix)]
+
+    # construct R2 path
     r2_path = os.path.join(input_dir, f"{sample}{pattern_r2}.{extn}")
-    sample_inputs[sample] = {"r1": r1_path, "r2": r2_path}
+
+    # only keep valid pairs
+    if not os.path.exists(r2_path):
+        continue
+
+    # store safely
+    if sample in sample_inputs:
+        print(f"⚠ duplicate sample detected: {sample}")
+        continue
+
+    sample_inputs[sample] = {
+        "r1": r1_path,
+        "r2": r2_path
+    }
+
+# final stats
+num_samples = len(sample_inputs)
 
 config["sample_names"] = sample_inputs
-print(f"Sample inputs: {sample_inputs}")
+
+print(f"Sample inputs: {len(sample_inputs)} samples detected")
+print(f"Number of sample inputs: {num_samples}")
 
 #making directories for each step
 sample_inputs = config["sample_names"]

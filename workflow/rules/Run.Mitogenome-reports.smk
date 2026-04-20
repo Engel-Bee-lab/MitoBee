@@ -56,3 +56,44 @@ rule mitogenome_reports_aggregate:
         echo -e "filename\theader\tlength\tGC_content\tN_count\tN_fraction\tQC_status" > {output.aggregate}
         cat {input.summaries} >> {output.aggregate}
         """
+    
+rule extract_pass_samples:
+    input:
+        os.path.join(dir_reports, "mitogenome_consensus_summary.tsv")
+    output:
+        pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
+    localrule: True
+    shell:
+        """
+        awk -F'\t' 'NR>1 && $7=="PASS" {{print $1}}' {input} \
+        | sed 's/_consensus.fasta//' \
+        | sort -u \
+        > {output.pass_list}
+        """
+
+rule copy_mitogenomes:
+    input:
+        pass_list=os.path.join(dir_reports, "mitogenome_pass_samples.txt")
+    output:
+        copied=os.path.join(dir_reports, "mitogenomes", "done.txt")
+    params:
+        outdir=os.path.join(dir_reports, "mitogenomes"),
+        input_dir=os.path.join(dir_hostcleaned, "mitogenome")
+    localrule: True
+    shell:
+        r"""
+        mkdir -p {params.outdir}
+
+        while read sample; do
+            src="{params.input_dir}/${{sample}}_consensus.fasta"
+            dst="{params.outdir}/${{sample}}_consensus.fasta"
+
+            if [ -f "$src" ]; then
+                cp "$src" "$dst"
+            else
+                echo "Missing file for $sample"
+            fi
+        done < {input.pass_list}
+
+        touch {output.copied}
+        """

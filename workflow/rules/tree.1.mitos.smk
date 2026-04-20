@@ -1,51 +1,71 @@
+EXTN = config["args"]["extn"]
+
 rule install_database:
     output:
-        os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt")
+        os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt")
     params:
-        url ="https://zenodo.org/api/records/4284483/files-archive",
-        out = os.path.join(dir_out, "database", "mitos_db.zip"),
+        url="https://zenodo.org/api/records/4284483/files-archive",
+        out=os.path.join(dir_out, "database", "mitos_db.zip"),
         decom=os.path.join(dir_out, "database", "mitos_db")
     shell:
         """
         set -euo pipefail
+
+        mkdir -p $(dirname {params.out})
+
         wget -O {params.out} {params.url}
 
         unzip {params.out}
+
         rm -rf {params.decom}
         mkdir -p {params.decom}
+
         for f in refseq*; do
             tar -xvjf "$f"
         done
+
         mv refseq* {params.decom}/.
+
         touch {output}
         """
 
 rule run_mitos:
     input:
-        fasta= lambda wc: os.path.join(input_dir, f"{wc.sample}.{extn}"),
-        db=os.path.join(dir_out, "database", "mitos_db" "mitos_downlaoded.txt"),
-        host= config['args']['host_seq'],
+        fasta=os.path.join(input_dir, "{sample}." + EXTN),
+        db=os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
     output:
         os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa")
+
     params:
         outdir=os.path.join(dir_mitos, "{sample}_mitogenome"),
         genetic_code=2,
         database=os.path.join(dir_out, "database", "mitos_db"),
-        specific=config['args']['specific_db'],
-        sample="{sample}"
+        specific=config.get('tree', {}).get('specific_db', 'refseq89m'),
+        sample="{sample}",
+        host=config.get('args', {}).get('host_seq')
     conda:
         os.path.join(dir_env, "mitos.yaml")
+
     resources:
-        mem_mb =config['resources']['smalljob']['mem_mb'],
-        runtime = config['resources']['smalljob']['runtime']
-    threads: 
+        mem_mb=config['resources']['smalljob']['mem_mb'],
+        runtime=config['resources']['smalljob']['runtime']
+
+    threads:
         config['resources']['smalljob']['threads']
+
     shell:
         """
         set -euo pipefail
+
         rm -rf {params.outdir}
-        mkdir {params.outdir}
-        runmitos -i {input.fasta} -o {params.outdir} -c {params.genetic_code} -r {params.database}/{params.specific}
+        mkdir -p {params.outdir}
+
+        runmitos \
+            -i "{input.fasta}" \
+            -o "{params.outdir}" \
+            -c {params.genetic_code} \
+            -r "{params.database}/{params.specific}"
+
         for file in {params.outdir}/*; do
             base=$(basename "$file")
             mv "$file" "{params.outdir}/{params.sample}_${{base}}"

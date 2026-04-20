@@ -3,7 +3,7 @@ Rules to build gene DNA trees.
 """
 rule build_alignment_fasta:
     input:
-        fasta=expand(os.path.join(input_dir, "{sample}.{extn}"), sample=sample_names, extn=extn)
+        fasta=expand(os.path.join(input_dir, "{sample}.{extn}"), sample=sample_names, extn=EXTN)
     output:
         final_fasta = os.path.join(dir_hostcleaned, "mitogenes", "final_mitogenome.aln")
     params:

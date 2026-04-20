@@ -19,11 +19,7 @@ rule build_gene_tree:
         iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp"),
         output_dir=os.path.join(dir_reports, "gene_trees"),
         gene="{gene}"
-    resources:
-        mem_mb=config['resources']['smalljob']['mem_mb'],
-        runtime=config['resources']['smalljob']['runtime']
-    threads:
-        config['resources']['smalljob']['threads']
+    localrule : True
     shell:
         """
         mkdir {params.iqtree_dir} 
