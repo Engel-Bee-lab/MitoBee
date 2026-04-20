@@ -236,6 +236,7 @@ rule qc_consensus:
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta"),
         dirs=os.path.join(dir_reports, "mitogenome")
     params:
+    localrule:True
     shell:
         """
         set -euo pipefail
