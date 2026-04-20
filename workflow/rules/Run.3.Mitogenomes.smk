@@ -136,6 +136,8 @@ rule generate_allele_frequency:
         fi
         """
 
+print (len(sample_names))
+
 rule merge_vcf:
     input:
         expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.norm.vcf.gz"), sample=sample_names)
