@@ -230,7 +230,7 @@ rule qc_consensus:
     input:
         fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     output:
-        output_fasta = os.path.join(dir_out, "temp", "{sample}_done.txt"),
+        output_fasta = os.path.join(dir_hostcleaned, "temp", "{sample}_done.txt"),
     params:
         max_frac = config['run']['max_frac'], #mask sequences with more than 5% Ns
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta"),

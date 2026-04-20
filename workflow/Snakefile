@@ -44,7 +44,7 @@ if config['args']['mode'] == "mitogenome":
     targets['host'] = os.path.join(dir_hostcleaned, "mitogenome", "merged_mitogenome_snps.filtered.norm.vcf.gz")
     targets['host'] = expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_low_cov.bed"), sample=sample_names)
     targets['host'] = expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta"), sample=sample_names)
-    targets['host'] = expand(os.path.join(dir_out, "temp", "{sample}_done.txt"), sample=sample_names)
+    targets['host'] = expand(os.path.join(dir_hostcleaned, "temp", "{sample}_done.txt"), sample=sample_names)
     #targets['qc'] = expand(os.path.join(dir_reports,"QC","{sample}_host_qc_report.txt"), sample=sample_names)
     targets['qc'] = os.path.join(dir_reports, "final_host_qc_summary.txt")
     #targets['host'] = os.path.join(dir_reports, "mitogenome_consensus_summary.tsv")
