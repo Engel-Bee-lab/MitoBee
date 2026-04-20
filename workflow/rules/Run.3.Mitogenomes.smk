@@ -243,11 +243,13 @@ rule qc_consensus:
         mkdir -p {params.dirs}
         
         seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
-        n_count=$(grep -v '^>' {input.fasta} | tr -d '\\n' | tr 'a-z' 'A-Z' | grep -o 'N' | wc -l)
-
+        n_count=$(grep -v '^>' file | tr -d '\n' | tr -cd 'Nn' | wc -c)
+        
         if [ "$seq_len" -eq 0 ]; then
             echo "Empty sequence, failing QC"
+            exit 1
         fi
+
 
         frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {{print n/l}}')
 
