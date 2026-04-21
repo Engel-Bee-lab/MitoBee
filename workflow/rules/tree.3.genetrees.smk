@@ -22,8 +22,17 @@ rule build_gene_tree:
     localrule : True
     shell:
         """
-        mkdir {params.iqtree_dir} 
-        mkdir {params.output_dir}
+        if [-f {params.iqtree_dir}]; then 
+            echo "IQ-TREE output directory for gene {params.gene} already exists. Skipping tree building for this gene."
+        else:   
+            mkdir {params.iqtree_dir} 
+        fi
+        
+        if [-f {params.output_dir}]; then 
+            echo "Output directory for gene trees already exists. Skipping directory creation."
+        else:
+            mkdir {params.output_dir}
+        fi
 
         if [ -f {params.aln_file} ]; then
             echo "Alignment file for gene {params.gene} found. Proceeding with tree building."
