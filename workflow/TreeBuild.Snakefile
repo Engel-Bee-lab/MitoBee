@@ -69,7 +69,7 @@ if config['args']['mode'] == "mitogenome":
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
         os.path.join(dir_out, "temp", "genes_merged.txt"),
-        #os.path.join(dir_out, "temp", "aligned_done.txt"),
+        os.path.join(dir_out, "temp", "aligned_done.txt"),
         #os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
         #os.path.join(dir_mitos, "mafft", "Partitions.txt"),
         #os.path.join(dir_mitos, "mafft", "Partitions.nex"),
