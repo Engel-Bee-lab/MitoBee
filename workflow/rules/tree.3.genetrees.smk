@@ -16,7 +16,7 @@ rule build_gene_tree:
         os.path.join(dir_env, "mafft.yaml")
     params:
         aln_file=os.path.join(dir_mitos, "mafft", "{gene}_aligned.faa"),
-        iqtree_dir=os.path.join(dir_mitos, "gene_trees_tmp"),
+        iqtree_dir=os.path.join(dir_mitos, "{gene}_trees_tmp"),
         output_dir=os.path.join(dir_reports, "gene_trees"),
         gene="{gene}"
     localrule : True
