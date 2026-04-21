@@ -114,7 +114,7 @@ rule build_tree:
         """
             mkdir -p {params.iqtree_dir}
             iqtree -s {input.fasta} -m MFP -bb 1000 -nt {threads} -pre mitogenome_phylo_tree
-            mv tmp_prefix.* {params.iqtree_dir}/.
+            mv mitogenome_phylo_tree.* {params.iqtree_dir}/.
             touch {output.tree}
             touch {output.log}
         """
