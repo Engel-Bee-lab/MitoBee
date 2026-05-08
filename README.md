@@ -10,7 +10,7 @@
 ## Snakemake workflow to get mitogenomes from metagenomic data
 Still under development! Stable release out as a version, but only if there is a closely related mitogenome available.
 
-Documentation: [Wiki](https://github.com/npbhavya/Mitobee/wiki/Home)
+Documentation: [Read the Docs](https://mitobee.readthedocs.io/en/latest/)
 
 ### Install 
 
