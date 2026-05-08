@@ -1,0 +1,24 @@
+site_name: MitoBee
+site_url: "https://github.com/Engel-Bee-lab/MitoBee"
+site_author: "Bhavya Papudeshi"
+repo_url: "https://github.com/Engel-Bee-lab/MitoBee"
+repo_name: 'GitHub'
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - bash
+        - shell
+        - text
+nav:
+    - HOME:
+        - Introduction: index.md
+        - Citation: citation.md
+    - RUNNING: 
+        - Install: install.md
+        - Usage: run.md
+        - Search for Reference Genomes: search.md
+        - Generate tree: tree.md
+    - ISSUES:
+        - Issues: issues.md
