@@ -26,14 +26,15 @@ This module of **MitoBee** reconstructs a mitochondrial genome by extracting rea
 
 ## Input 
 - Metagenomic reads, paired end saved in one directory. So the folder structure should be as following
-    ├── Metagenomes
-    │   ├── meta1_R1.fastq
-    │   ├── meta1_R2.fastq
-    │   ├── meta2_R1.fastq
-    │   ├── meta2_R2.fastq
-    │   ├── meta3_R1.fastq
-    │   ├── meta3_R2.fastq
-    │   ├── ....
+      
+      ├── Metagenomes
+      │   ├── meta1_R1.fastq
+      │   ├── meta1_R2.fastq
+      │   ├── meta2_R1.fastq
+      │   ├── meta2_R2.fastq
+      │   ├── meta3_R1.fastq
+      │   ├── meta3_R2.fastq
+      │   ├── ....
   
   The file extension can be .fastq, .fastq.gz, .fq etc. It doesnt matter as long as the correct ending is added to the command 
   Also, the forward and the reverse reads can be '_R1'/'_R2' or '_1'/'_2, as long as they are defined in the command. 
@@ -81,11 +82,11 @@ For each sample, the module produces:
 - REPORTS:
   - QC/<sample>_qc_report.txt: Includes the QC stats for each metagenome. For example:  
 
-    Sample: test1 \
-    Total Reads: 12768112 \ 
-    QC Reads: 12768114 \
-    Mapped Reads: 3447 \
-    Percentage of Mapped Reads: 0.03% \
+      Sample: test1 \
+      Total Reads: 12768112 \ 
+      QC Reads: 12768114 \
+      Mapped Reads: 3447 \
+      Percentage of Mapped Reads: 0.03% \
 
   - final_host_qc_summary.txt: All the QC stats in one file 
 
@@ -98,9 +99,9 @@ For each sample, the module produces:
 
   - mitogenome_consensus_summary.tsv: Consensus mitogenome stats
 
-    |filename|	header|	length|	GC_content|	N_count|	N_fraction|	QC_status|
-    |test1_consensus.fasta|	test1_CM009947.2|	16471|	15.03|	139|	0.0084|	PASS|
-    |test2_consensus.fasta|	test2_CM009947.2|	16471| 14.95|	216|	0.0131|	PASS|
+      |filename|	header|	length|	GC_content|	N_count|	N_fraction|	QC_status|
+      |test1_consensus.fasta|	test1_CM009947.2|	16471|	15.03|	139|	0.0084|	PASS|
+      |test2_consensus.fasta|	test2_CM009947.2|	16471| 14.95|	216|	0.0131|	PASS|
 
   - mitogenome/<sample name>_consensus.fasta: Includes the resulting mitogenome generated from the mapped reads from the metagenome. If they pass the quality. 
 

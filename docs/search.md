@@ -16,14 +16,14 @@ Note: There is likely no reason to run all the metagenomes here, maybe the subse
 
 - Metagenomic reads, paired end saved in one directory. So the folder structure should be as following
 
-    ├── Metagenomes
-    │   ├── meta1_R1.fastq
-    │   ├── meta1_R2.fastq
-    │   ├── meta2_R1.fastq
-    │   ├── meta2_R2.fastq
-    │   ├── meta3_R1.fastq
-    │   ├── meta3_R2.fastq
-    │   ├── ...
+        ├── Metagenomes
+        │   ├── meta1_R1.fastq
+        │   ├── meta1_R2.fastq
+        │   ├── meta2_R1.fastq
+        │   ├── meta2_R2.fastq
+        │   ├── meta3_R1.fastq
+        │   ├── meta3_R2.fastq
+        │   ├── ...
 
     The file extension can be .fastq, .fastq.gz, .fq etc. It doesnt matter as long as the correct ending is added to the command 
     Also, the forward and the reverse reads can be '_R1'/'_R2' or '_1'/'_2, as long as they are defined in the command.
