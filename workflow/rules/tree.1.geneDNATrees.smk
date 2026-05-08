@@ -29,7 +29,7 @@ rule phylo_tree:
     input:
         final_fasta = os.path.join(dir_hostcleaned, "mitogenome", "final_mitogenome.aln")
     output:
-        tree = os.path.join(dir_reports, "gene_trees", "mitogenome_phylo_tree.treefile")
+        tree = os.path.join(dir_reports, "gene_trees", "mitocgenomes_nucl_phylo_tree.treefile")
     params:
         odir=os.path.join(dir_reports, "gene_trees"),
         prefix="gene_tree"
