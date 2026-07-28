@@ -66,6 +66,7 @@ rule_all_input = []
 if config['args']['mode'] == "mitogenome":
     rule_all_input = [
         os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
+        os.path.join(dir_reports, "gene_trees", "mitocgenomes_nucl_phylo_tree.treefile"),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names),
         expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
         os.path.join(dir_out, "temp", "genes_merged.txt"),
