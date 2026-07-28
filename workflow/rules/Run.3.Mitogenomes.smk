@@ -136,6 +136,8 @@ rule generate_allele_frequency:
         fi
         """
 
+print (len(sample_names))
+
 rule merge_vcf:
     input:
         expand(os.path.join(dir_hostcleaned, "mitogenome", "{sample}_mitogenome_snps.filtered.norm.vcf.gz"), sample=sample_names)
@@ -228,23 +230,26 @@ rule qc_consensus:
     input:
         fasta = os.path.join(dir_hostcleaned, "mitogenome", "{sample}_consensus.fasta")
     output:
-        output_fasta = os.path.join(dir_out, "temp", "{sample}_done.txt"),
+        output_fasta = os.path.join(dir_hostcleaned, "temp", "{sample}_done.txt"),
     params:
         max_frac = config['run']['max_frac'], #mask sequences with more than 5% Ns
         filtered_fasta = os.path.join(dir_reports, "mitogenome", "{sample}_consensus.fasta"),
         dirs=os.path.join(dir_reports, "mitogenome")
     params:
+    localrule:True
     shell:
         """
         set -euo pipefail
         mkdir -p {params.dirs}
         
-        seq_len=$(grep -v '^>' {input.fasta} | tr -d '\\n' | wc -c)
-        n_count=$(grep -v '^>' {input.fasta} | tr -d '\\n' | tr 'a-z' 'A-Z' | grep -o 'N' | wc -l)
+        seq_len=$(grep -v '^>' "{input.fasta}" | tr -d '\n' | wc -c)
+        n_count=$(grep -v '^>' "{input.fasta}" | tr -d '\n' | tr -cd 'Nn' | wc -c)
 
         if [ "$seq_len" -eq 0 ]; then
             echo "Empty sequence, failing QC"
+            exit 1
         fi
+
 
         frac=$(awk -v n=$n_count -v l=$seq_len 'BEGIN {{print n/l}}')
 
