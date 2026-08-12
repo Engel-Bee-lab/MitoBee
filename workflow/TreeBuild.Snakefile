@@ -65,7 +65,7 @@ rule_all_input = []
 """Mark target rules"""
 if config['args']['mode'] == "mitogenome":
     rule_all_input = [
-        os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
+        #os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
         os.path.join(dir_hostcleaned, "mitogenome", "final_mitogenome.aln"),
         os.path.join(dir_reports, "mitogenomes_nucl_phylo_tree.treefile")
         #expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names),
