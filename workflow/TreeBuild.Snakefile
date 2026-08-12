@@ -66,7 +66,7 @@ rule_all_input = []
 if config['args']['mode'] == "mitogenome":
     rule_all_input = [
         os.path.join(dir_out, "database", "mitos_db", "mitos_downloaded.txt"),
-        #os.path.join(dir_reports, "gene_trees", "mitocgenomes_nucl_phylo_tree.treefile"),
+        os.path.join(dir_reports, "gene_trees", "mitogenomes_nucl_phylo_tree.treefile"),
         #expand(os.path.join(dir_mitos, "{sample}_mitogenome", "{sample}_result.faa"), sample=sample_names),
         #expand(os.path.join(dir_mitos, "{sample}_mitogenome", "done.txt"), sample=sample_names),
         #os.path.join(dir_out, "temp", "genes_merged.txt"),
@@ -74,8 +74,8 @@ if config['args']['mode'] == "mitogenome":
         #os.path.join(dir_mitos, "mafft", "concatenated_alignment.faa"),
         #os.path.join(dir_mitos, "mafft", "Partitions.txt"),
         #os.path.join(dir_mitos, "mafft", "Partitions.nex"),
-        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.nwk"),
-        os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.log"),
+        #os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.nwk"),
+        #os.path.join(dir_reports, "tree", "mitogenome_phylo_tree.log"),
         # output files for all genes
         #expand(os.path.join(dir_reports, "gene_trees", "{gene}.treefile"), gene=gene_list)
     ]
