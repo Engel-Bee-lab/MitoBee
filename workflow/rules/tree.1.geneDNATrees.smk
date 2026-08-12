@@ -5,7 +5,7 @@ rule build_alignment_fasta:
     input:
         fasta=expand(os.path.join(input_dir, "{sample}.{extn}"), sample=sample_names, extn=EXTN)
     output:
-        final_fasta = os.path.join(dir_hostcleaned, "mitogenes", "final_mitogenome.aln")
+        final_fasta = os.path.join(dir_hostcleaned, "mitogenome", "final_mitogenome.aln")
     params:
         folder=os.path.join(input_dir),
         concat=os.path.join(dir_hostcleaned, "mitogenes", "all_samples.fasta"),
